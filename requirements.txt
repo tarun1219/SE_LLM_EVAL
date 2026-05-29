@@ -1,0 +1,48 @@
+# API clients
+openai>=1.30.0
+anthropic>=0.25.0
+groq>=0.5.0
+
+# NLP / Evaluation
+bert-score>=0.3.13
+sentence-transformers>=2.7.0
+nltk>=3.8.1
+rouge>=1.0.1
+rouge-score>=0.1.2
+sacrebleu>=2.4.0
+spacy>=3.7.0
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.25.0
+
+# Stats
+scipy>=1.13.0
+statsmodels>=0.14.0
+scikit-learn>=1.4.0
+pingouin>=0.5.4
+
+# Data
+pandas>=2.2.0
+numpy>=1.26.0
+datasets>=2.19.0
+
+# Viz
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# ML / Transformers
+torch>=2.2.0
+transformers>=4.39.0
+gensim>=4.3.2
+
+# Stylistic metrics
+lexical-diversity>=0.1.1
+textstat>=0.7.3
+vaderSentiment>=3.3.2
+tfidf-matcher>=1.0.4
+summac>=0.0.3
+
+# Utilities
+tiktoken>=0.7.0
+tqdm>=4.66.0
+python-dotenv>=1.0.0
+jsonlines>=4.0.0

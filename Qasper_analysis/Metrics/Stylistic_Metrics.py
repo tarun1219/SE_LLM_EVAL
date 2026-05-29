@@ -114,7 +114,7 @@ class fluency:
 
 class relevance:
     def __init__(self):
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.model = SentenceTransformer('all-mpnet-base-v2')
 
     def default(self,reference,candidate):
         return self.calculate_relevance(reference,candidate)
