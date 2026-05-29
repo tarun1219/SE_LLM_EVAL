@@ -1,0 +1,6 @@
+model,year,prompt_num,shot_type,qa_relevance,ca_relevance,fluency_ppl,formality_mtld,readability_flesch,correctness_ner,judge_correctness,judge_relevance,judge_human_likeness,n,source
+GPT-3.5-Turbo,2023,P4,few,0.612,0.589,42.3,68.4,52.1,0.641,,,,(paper),original_paper
+LLaMA-2-7B,2023,P4,few,0.487,0.441,89.7,45.2,48.3,0.502,,,,(paper),original_paper
+GPT-4o,2026,P4,few,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,pending_inference
+Claude Sonnet 4-6,2026,P4,few,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,pending_inference
+LLaMA-3.1-70B,2026,P4,few,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,PENDING,pending_inference

@@ -8,6 +8,12 @@ openai_api_key
 *.zip
 *.json
 
+# Allow results artefacts and env example
+!results/*.csv
+!results/*.json
+!results/*.md
+!.env.example
+
 # python
 *.pyc
 __pycache__/
