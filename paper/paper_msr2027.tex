@@ -33,9 +33,26 @@
   \institution{Palo Alto Networks}
   \city{Santa Clara}
   \state{California}
-  \country{USA}
-}
+  \country{USA}}
 \email{tarun.tiwari@paloaltonetworks.com}
+
+\author{Radhika Gupta}
+\affiliation{%
+  \institution{Microsoft Corporation}
+  \city{Redmond}
+  \state{Washington}
+  \country{USA}}
+\email{}
+
+\author{Aryaman Bahukhandi}
+\affiliation{%
+  \institution{Intuit}
+  \city{Mountain View}
+  \state{California}
+  \country{USA}}
+\email{}
+
+\renewcommand{\shortauthors}{Tiwari, Gupta, and Bahukhandi}
 
 %% =================================================================
 \begin{document}
@@ -51,9 +68,10 @@ achieve nearly double the within-group Fleiss' Kappa of their predecessors
 (\kval{0.480}--\kval{0.487} vs.\ \kval{0.241} for GPT-3.5 and \kval{0.238}
 for LLaMA-2), yet this increased consistency represents \emph{worse}
 simulation fidelity relative to the human baseline (\kval{0.103}).
-All three 2026 models---from three different organizations---converge to a
-kappa range of 0.006, implicating the RLHF training process, not model
-architecture, as the driver of response uniformity.
+All three 2026 models\textemdash{}from three different
+organizations\textemdash{}converge to a kappa range of 0.006,
+implicating the RLHF training process, not model architecture,
+as the driver of response uniformity.
 
 A complementary \emph{Distribution Paradox} emerges: these same uniform
 2026 models are \emph{more} similar to human modal response distributions
@@ -146,9 +164,12 @@ We address three research questions:
 \item A comprehensive Qasper evaluation across all five models using
   automatic metrics (BLEU-1/2/3/4, ROUGE-1/2/L, METEOR) plus five
   stylistic metrics (relevance, fluency, formality, readability, correctness).
-\item An open-source release of the complete inference pipeline, all model
-  responses, and analysis scripts at
-  \url{https://github.com/tarun1219/SE\_LLM\_EVAL}.
+\item An open-source release at \url{https://github.com/tarun1219/SE\_LLM\_EVAL}
+  containing: the complete inference pipeline for all five models and five
+  prompt variants; all raw model responses (600 survey responses per Phase~2
+  model, 124 Qasper QA pairs per model); Fleiss' Kappa, chi-square, $t$-test,
+  and ANOVA analysis scripts; and a reproducibility README with environment
+  specifications and API version pinning.
 \end{enumerate}
 
 %% =================================================================
@@ -425,13 +446,18 @@ LLaMA-3.3-70B     & 2    & 0.4799 & $+$0.242\,$\uparrow$& $+$0.377 \\
 \midrule
 \multicolumn{5}{l}{\footnotesize \textit{Phase~2, P5 Chain-of-Thought
   (zero-shot; see \S\ref{sec:results:p5})}} \\
-GPT-4o (P5)       & 2    & 0.4821 & $+$0.002 vs P1--P4 & $+$0.379 \\
-Claude~4-6 (P5)   & 2    & \textbf{0.4878} & $+$0.001 vs P1--P4 & $+$0.385 \\
-LLaMA-3.3 (P5)    & 2    & 0.4812 & $+$0.001 vs P1--P4 & $+$0.378 \\
+GPT-4o (P5)       & 2    & 0.4821$^{\ddag}$ & $+$0.002 vs P1--P4 & $+$0.379 \\
+Claude~4-6 (P5)   & 2    & \textbf{0.4878}$^{\ddag}$ & $+$0.001 vs P1--P4 & $+$0.385 \\
+LLaMA-3.3 (P5)    & 2    & 0.4812$^{\ddag}$ & $+$0.001 vs P1--P4 & $+$0.378 \\
 \bottomrule
 \multicolumn{5}{l}{\footnotesize $^{\dag}$Corrected value; Phase~1 paper
   reported $\kappa{=}0.180$ from an uncommitted}\\
 \multicolumn{5}{l}{\footnotesize intermediate file. The value 0.238 is authoritative.}\\
+\multicolumn{5}{l}{\footnotesize $^{\ddag}$P5 $\kappa$ values are from zero-shot inference
+  runs conducted independently of the P1--P4}\\
+\multicolumn{5}{l}{\footnotesize few-shot conditions. Raw responses and Kappa scripts
+  are at \url{https://github.com/tarun1219/SE\_LLM\_EVAL}}\\
+\multicolumn{5}{l}{\footnotesize for independent verification.}\\
 \end{tabular}
 \end{table}
 
@@ -774,6 +800,10 @@ CoT is effective at improving factual accuracy and logical coherence, but it
 operates downstream of the RLHF-induced attractor state: the model's
 reasoning chain may acknowledge demographic context while its final answer
 selection remains anchored to the mode of the training distribution.
+We term this an RLHF-induced attractor state---a hypothesis consistent with
+Perez et~al.'s~\cite{perez2022} findings on reduced response variance under
+alignment, though direct empirical verification would require
+activation-level analysis beyond the scope of this study.
 
 %% =================================================================
 \section{Discussion}
