@@ -1,0 +1,122 @@
+{
+  "source": "2023 paper baseline verification",
+  "generated": "2026-05-29T11:51:48.477930",
+  "reproducibility_notes": {
+    "llama2_kappa": "LLaMA-2 kappa computed as 0.238 vs paper's 0.180. Discrepancy is because the paper used a separate 'llm_finals.csv' Colab file not committed to the repo. Human and GPT-3.5 match exactly.",
+    "cramers_v": "Cram\u00e9r's V computed as 0.222 vs paper's 0.152. Original Chi_square.py imported contingency_table from a utils.py that never existed \u2014 the paper value used different n/k."
+  },
+  "fleiss_kappa": {
+    "human": 0.10271994188291521,
+    "gpt35": 0.2412711117796367,
+    "llama2": 0.23799844070359258
+  },
+  "chi_square": {
+    "chi2": 18.7488634885884,
+    "p": 0.0008804411658253774,
+    "dof": 4,
+    "n": 378,
+    "cramers_v": 0.22271095159248133
+  },
+  "t_tests": {
+    "human": {
+      "Age": {
+        "23-26 years old_vs_18-22 years old": {
+          "t": -0.21368313263998268,
+          "p": 0.8309548408824485,
+          "significant_p05": false,
+          "cohens_d": -0.026202591055914045
+        }
+      },
+      "Gender": {
+        "Man_vs_Woman": {
+          "t": -0.3564270652833186,
+          "p": 0.7217616739548327,
+          "significant_p05": false,
+          "cohens_d": -0.04072335406821223
+        }
+      },
+      "Experience": {
+        "What is you preferred development environment?_vs_ How do you learn to code?": {
+          "t": 6.9206403077956296,
+          "p": 8.804291219075395e-09,
+          "significant_p05": true,
+          "cohens_d": 2.0107108834598164
+        }
+      }
+    },
+    "gpt35": {
+      "Age": {
+        "18-22 years old_vs_23-26 years old": {
+          "t": 1.1742532987171614,
+          "p": 0.24157474049132308,
+          "significant_p05": false,
+          "cohens_d": 0.1600106935876615
+        }
+      },
+      "Gender": {
+        "Man_vs_Woman": {
+          "t": 1.561966725045224,
+          "p": 0.11928421003558938,
+          "significant_p05": false,
+          "cohens_d": 0.17463657785999653
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_1-3 years": {
+          "t": -0.9550021668739588,
+          "p": 0.3406441633644902,
+          "significant_p05": false,
+          "cohens_d": -0.13000819740127373
+        }
+      }
+    },
+    "llama2": {
+      "Age": {
+        "18-22 years old_vs_27-35 years old": {
+          "t": -0.9806320060256436,
+          "p": 0.3296586933104815,
+          "significant_p05": false,
+          "cohens_d": -0.21880987467640078
+        }
+      },
+      "Gender": {
+        "Woman_vs_Man": {
+          "t": 0.0,
+          "p": 1.0,
+          "significant_p05": false,
+          "cohens_d": 0.0
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_3-5 years": {
+          "t": -0.4341532378650891,
+          "p": 0.6653173933670422,
+          "significant_p05": false,
+          "cohens_d": -0.09689604196405205
+        }
+      }
+    }
+  },
+  "anova": {
+    "What is the biggest challenge you face as a developer?": {
+      "F": 8.402383958852578,
+      "p": 0.0006651872525687748
+    },
+    "When choosing a programming language for a new project": {
+      "F": 7.28186985528878,
+      "p": 0.0014435276001710645
+    },
+    "How do you balance between innovation and meeting project deadlines": {
+      "F": 0.2016782407407406,
+      "p": 0.8180065873448683
+    }
+  },
+  "paper_values": {
+    "human": 0.103,
+    "gpt35": 0.241,
+    "llama2": 0.18,
+    "chi2": 18.75,
+    "p_chi2": 0.00088,
+    "cramers_v": 0.152
+  }
+}

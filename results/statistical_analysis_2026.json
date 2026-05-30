@@ -1,0 +1,252 @@
+{
+  "generated": "2026-05-30T01:57:21.835212",
+  "fleiss_kappa": {
+    "human": 0.10272,
+    "gpt35": 0.24127,
+    "llama2": 0.238,
+    "gpt4o": 0.4804,
+    "claude": 0.48651,
+    "llama31": 0.47985
+  },
+  "ttest": {
+    "human": {
+      "Age": {
+        "23-26 years old_vs_18-22 years old": {
+          "t": -0.2137,
+          "p": 0.831,
+          "significant_p05": false,
+          "cohens_d": -0.0262
+        }
+      },
+      "Gender": {
+        "Man_vs_Woman": {
+          "t": -0.3564,
+          "p": 0.7218,
+          "significant_p05": false,
+          "cohens_d": -0.0407
+        }
+      },
+      "Experience": {
+        "What is you preferred development environment?_vs_ How do you learn to code?": {
+          "t": 6.9206,
+          "p": 0.0,
+          "significant_p05": true,
+          "cohens_d": 2.0107
+        }
+      }
+    },
+    "gpt35": {
+      "Age": {
+        "18-22 years old_vs_23-26 years old": {
+          "t": 1.1743,
+          "p": 0.2416,
+          "significant_p05": false,
+          "cohens_d": 0.16
+        }
+      },
+      "Gender": {
+        "Man_vs_Woman": {
+          "t": 1.562,
+          "p": 0.1193,
+          "significant_p05": false,
+          "cohens_d": 0.1746
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_1-3 years": {
+          "t": -0.955,
+          "p": 0.3406,
+          "significant_p05": false,
+          "cohens_d": -0.13
+        }
+      }
+    },
+    "llama2": {
+      "Age": {
+        "18-22 years old_vs_27-35 years old": {
+          "t": -0.9806,
+          "p": 0.3297,
+          "significant_p05": false,
+          "cohens_d": -0.2188
+        }
+      },
+      "Gender": {
+        "Woman_vs_Man": {
+          "t": 0.0,
+          "p": 1.0,
+          "significant_p05": false,
+          "cohens_d": 0.0
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_3-5 years": {
+          "t": -0.4342,
+          "p": 0.6653,
+          "significant_p05": false,
+          "cohens_d": -0.0969
+        }
+      }
+    },
+    "gpt4o": {
+      "Age": {
+        "18-22 years old_vs_27-35 years old": {
+          "t": 0.0451,
+          "p": 0.9641,
+          "significant_p05": false,
+          "cohens_d": 0.0101
+        }
+      },
+      "Gender": {
+        "Woman_vs_Man": {
+          "t": 0.6471,
+          "p": 0.5189,
+          "significant_p05": false,
+          "cohens_d": 0.1191
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_3-5 years": {
+          "t": -0.1648,
+          "p": 0.8695,
+          "significant_p05": false,
+          "cohens_d": -0.0368
+        }
+      }
+    },
+    "claude": {
+      "Age": {
+        "18-22 years old_vs_27-35 years old": {
+          "t": 0.818,
+          "p": 0.4157,
+          "significant_p05": false,
+          "cohens_d": 0.1825
+        }
+      },
+      "Gender": {
+        "Woman_vs_Man": {
+          "t": 0.8389,
+          "p": 0.4032,
+          "significant_p05": false,
+          "cohens_d": 0.1544
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_3-5 years": {
+          "t": -0.0265,
+          "p": 0.9789,
+          "significant_p05": false,
+          "cohens_d": -0.0059
+        }
+      }
+    },
+    "llama31": {
+      "Age": {
+        "18-22 years old_vs_27-35 years old": {
+          "t": 0.0,
+          "p": 1.0,
+          "significant_p05": false,
+          "cohens_d": 0.0
+        }
+      },
+      "Gender": {
+        "Woman_vs_Man": {
+          "t": 0.5983,
+          "p": 0.5508,
+          "significant_p05": false,
+          "cohens_d": 0.1102
+        }
+      },
+      "Experience": {
+        "Less than 1 year_vs_3-5 years": {
+          "t": -0.402,
+          "p": 0.6887,
+          "significant_p05": false,
+          "cohens_d": -0.0897
+        }
+      }
+    }
+  },
+  "chi_sq": {
+    "gpt35": {
+      "chi2": 0.0,
+      "p": 1.0,
+      "dof": 4,
+      "n": 424,
+      "cramers_v": 0.0,
+      "significant_p05": false
+    },
+    "llama2": {
+      "chi2": 18.7489,
+      "p": 0.00088,
+      "dof": 4,
+      "n": 378,
+      "cramers_v": 0.2227,
+      "significant_p05": true
+    },
+    "gpt4o": {
+      "chi2": 2.8647,
+      "p": 0.580721,
+      "dof": 4,
+      "n": 444,
+      "cramers_v": 0.0803,
+      "significant_p05": false
+    },
+    "claude": {
+      "chi2": 1.8758,
+      "p": 0.758582,
+      "dof": 4,
+      "n": 402,
+      "cramers_v": 0.0683,
+      "significant_p05": false
+    },
+    "llama31": {
+      "chi2": 5.291,
+      "p": 0.25872,
+      "dof": 4,
+      "n": 496,
+      "cramers_v": 0.1033,
+      "significant_p05": false
+    }
+  },
+  "anova": {
+    "What is the biggest challenge you face as a developer?": {
+      "F": 41.8251,
+      "p": 0.0,
+      "significant_p05": true
+    },
+    "When choosing a programming language for a new project": {
+      "F": 102.9561,
+      "p": 0.0,
+      "significant_p05": true
+    },
+    "How do you balance between innovation and meeting project deadlines": {
+      "F": 236.7959,
+      "p": 0.0,
+      "significant_p05": true
+    }
+  },
+  "longitudinal": {
+    "kappa_gpt35_to_gpt4o": {
+      "old": 0.24127,
+      "new": 0.4804,
+      "delta": 0.23913,
+      "improved": true
+    },
+    "kappa_llama2_to_llama31": {
+      "old": 0.238,
+      "new": 0.47985,
+      "delta": 0.24185,
+      "improved": true
+    },
+    "bias_gpt35_to_gpt4o": {
+      "old": 0.0,
+      "new": 0.0,
+      "delta": 0.0
+    },
+    "bias_llama2_to_llama31": {
+      "old": 0.0,
+      "new": 0.0,
+      "delta": 0.0
+    }
+  }
+}

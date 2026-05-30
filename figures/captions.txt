@@ -1,0 +1,9 @@
+Figure 1: Figure 1: PCA scatter plots of response distributions for 2023 baseline models (GPT-3.5, LLaMA-2, Human) and 2026 new models (GPT-4o, Claude Sonnet, LLaMA-3.1). Each point represents one survey response encoded as a numeric category. PCA reduces the high-dimensional option space to two components.
+
+Figure 2: Figure 2: Bar chart of Fleiss' Kappa scores for each respondent type. Light bars = 2023 models, dark bars = 2026 models. The dashed line marks the human baseline. Higher kappa indicates more uniform (less diverse) responses.
+
+Figure 3: Figure 3: Heatmap of t-test p-values comparing response distributions across demographic groups (age, gender, experience) for each model. Red cells (marked *) indicate statistically significant differences (p < 0.05), suggesting the model produces systematically different responses for different demographic profiles.
+
+Figure 4: Figure 4: Grouped bar chart of BERTScore F1 scores on the Qasper QA task for each model (grouped by prompt variant P1–P4). BERTScore uses DeBERTa embeddings to measure semantic similarity between generated answers and gold references.
+
+Figure 5: Figure 5: Longitudinal comparison of Fleiss' Kappa and demographic bias scores for the GPT lineage (GPT-3.5 → GPT-4o) and LLaMA lineage (LLaMA-2 → LLaMA-3.1). Each line connects the 2023 value (left) to the 2026 value (right), showing directional change in response uniformity and demographic sensitivity.

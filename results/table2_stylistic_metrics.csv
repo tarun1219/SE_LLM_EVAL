@@ -1,0 +1,15 @@
+model,year,prompt_num,shot_type,qa_relevance,ca_relevance,fluency_ppl,formality_mtld,readability_flesch,correctness_ner,judge_correctness,judge_relevance,judge_human_likeness,n,source
+GPT-3.5-Turbo,2023,P4,few,0.612,0.589,42.3,68.4,52.1,0.641,,,,(paper),original_paper
+LLaMA-2-7B,2023,P4,few,0.487,0.441,89.7,45.2,48.3,0.502,,,,(paper),original_paper
+Claude Sonnet 4-6,2026,P1,few,0.0891,0.3396,0.88,25.86,31.75,0.7455,,,,124,computed_2026
+Claude Sonnet 4-6,2026,P2,few,0.139,0.3328,0.78,43.38,31.52,0.7852,,,,124,computed_2026
+Claude Sonnet 4-6,2026,P3,few,0.2038,0.259,0.84,55.39,26.65,0.7671,,,,124,computed_2026
+Claude Sonnet 4-6,2026,P4,few,0.0689,0.3402,0.9,15.39,36.68,0.7495,,,,124,computed_2026
+GPT-4o,2026,P1,few,0.0756,0.2766,0.9,20.29,32.85,0.669,,,,124,computed_2026
+GPT-4o,2026,P2,few,0.105,0.2186,0.9,20.9,32.48,0.5793,,,,124,computed_2026
+GPT-4o,2026,P3,few,0.2665,0.223,0.87,42.97,28.68,0.7039,,,,124,computed_2026
+GPT-4o,2026,P4,few,0.0633,0.302,0.91,12.34,31.5,0.6814,,,,124,computed_2026
+llama-3.3-70b,2026,P1,few,0.0816,0.2876,0.88,21.94,34.41,0.726,,,,124,computed_2026
+llama-3.3-70b,2026,P2,few,0.1188,0.2946,0.84,33.57,37.6,0.7691,,,,124,computed_2026
+llama-3.3-70b,2026,P3,few,0.2452,0.2191,0.82,56.81,25.46,0.7619,,,,124,computed_2026
+llama-3.3-70b,2026,P4,few,0.0954,0.2805,0.9,19.77,34.72,0.705,,,,124,computed_2026
