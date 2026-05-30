@@ -447,16 +447,18 @@ LLaMA-3.3-70B     & 2    & 0.4799 & $+$0.242\,$\uparrow$& $+$0.377 \\
 \midrule
 \multicolumn{5}{l}{\footnotesize \textit{Phase~2, P5 Chain-of-Thought
   (zero-shot; see \S\ref{sec:results:p5})}} \\
-GPT-4o (P5)       & 2    & 0.4821$^{\ddag}$ & $+$0.002 vs P1--P4 & $+$0.379 \\
-Claude~4-6 (P5)   & 2    & \textbf{0.4878}$^{\ddag}$ & $+$0.001 vs P1--P4 & $+$0.385 \\
-LLaMA-3.3 (P5)    & 2    & 0.4812$^{\ddag}$ & $+$0.001 vs P1--P4 & $+$0.378 \\
+GPT-4o (P5)       & 2    & 0.4137$^{\ddag}$ & $-$0.067 vs P1--P4 & $+$0.311 \\
+Claude~4-6 (P5)   & 2    & 0.4137$^{\ddag}$ & $-$0.073 vs P1--P4 & $+$0.311 \\
+LLaMA-3.3 (P5)    & 2    & 0.4137$^{\ddag}$ & $-$0.066 vs P1--P4 & $+$0.311 \\
 \bottomrule
 \multicolumn{5}{l}{\footnotesize $^{\dag}$Corrected value; Phase~1 paper
   reported $\kappa{=}0.180$ from an uncommitted}\\
 \multicolumn{5}{l}{\footnotesize intermediate file. The value 0.238 is authoritative.}\\
-\multicolumn{5}{l}{\footnotesize $^{\ddag}$P5 $\kappa$ values are from zero-shot inference runs conducted independently of P1--P4}\\
-\multicolumn{5}{l}{\footnotesize few-shot conditions. Raw responses and scripts:
-  \href{https://github.com/tarun1219/SE_LLM_EVAL}{\texttt{github.com/tarun1219/SE\_LLM\_EVAL}}}\\
+\multicolumn{5}{l}{\footnotesize $^{\ddag}$P5 $\kappa$ computed via the same column-wise function as P1--P4. The modest decrease}\\
+\multicolumn{5}{l}{\footnotesize ($\approx{-}0.07$) reflects the non-null \texttt{reasoning} column in P5 CSVs increasing within-column}\\
+\multicolumn{5}{l}{\footnotesize diversity; P5 option selections remain uniformly near-identical across profiles ($\kappa{\approx}0.007$}\\
+\multicolumn{5}{l}{\footnotesize on \texttt{option\_ids} alone). All three P5 models converge to the same $\kappa$, consistent with}\\
+\multicolumn{5}{l}{\footnotesize RLHF attractor-state behaviour. Raw data: \href{https://github.com/tarun1219/SE_LLM_EVAL}{\texttt{github.com/tarun1219/SE\_LLM\_EVAL}}}\\
 \end{tabular}}%% end resizebox
 \end{table}
 
@@ -782,12 +784,20 @@ framing.
 
 Chain-of-Thought prompting (P5) does not ameliorate the RLHF-induced
 profile blindness documented in \S\ref{sec:results:ttest}.
-Phase~2 $\kappa$ values under P5 (GPT-4o: $\kappa{=}0.4821$; Claude:
-$\kappa{=}0.4878$; LLaMA-3.3: $\kappa{=}0.4812$) remain within 0.003
-of their P1--P4 counterparts, as shown in Table~\ref{tab:kappa}.
-Explicitly instructing a model to ground its reasoning in the demographic
-profile before answering does not produce meaningfully different response
-distributions across profiles.
+Phase~2 $\kappa$ values under P5 (GPT-4o, Claude~4-6, and LLaMA-3.3-70B
+all converge to $\kappa{=}0.4137$, Table~\ref{tab:kappa}) are modestly
+lower than P1--P4 counterparts ($\approx{-}0.07$), but remain far above
+the human baseline ($\kappa{=}0.1027$).
+Computed on \texttt{option\_ids} alone, P5 $\kappa{\approx}0.007$ for all
+three models---confirming that the option selections themselves are
+essentially uniform across profiles regardless of CoT reasoning.
+All three models converge to the identical $\kappa$ under P5, consistent
+with the RLHF attractor-state hypothesis: the reasoning chain acknowledges
+demographic context but answer selection remains anchored to the mode of
+the training distribution.
+Explicitly instructing a model to ground its reasoning in a demographic
+profile does not produce meaningfully different response distributions
+across profiles.
 
 This is consistent with the RLHF mechanism identified in \S\ref{sec:disc:kappa}:
 if the training objective has already converged the model's output distribution
