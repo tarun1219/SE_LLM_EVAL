@@ -42,7 +42,7 @@
   \city{Redmond}
   \state{Washington}
   \country{USA}}
-\email{}
+\email{RADHIKA\_EMAIL@microsoft.com}
 
 \author{Aryaman Bahukhandi}
 \affiliation{%
@@ -50,7 +50,7 @@
   \city{Mountain View}
   \state{California}
   \country{USA}}
-\email{}
+\email{ARYAMAN\_EMAIL@intuit.com}
 
 \renewcommand{\shortauthors}{Tiwari, Gupta, and Bahukhandi}
 
@@ -68,8 +68,8 @@ achieve nearly double the within-group Fleiss' Kappa of their predecessors
 (\kval{0.480}--\kval{0.487} vs.\ \kval{0.241} for GPT-3.5 and \kval{0.238}
 for LLaMA-2), yet this increased consistency represents \emph{worse}
 simulation fidelity relative to the human baseline (\kval{0.103}).
-All three 2026 models\textemdash{}from three different
-organizations\textemdash{}converge to a kappa range of 0.006,
+All three 2026 models (from three different organizations)
+converge to a kappa range of 0.006,
 implicating the RLHF training process, not model architecture,
 as the driver of response uniformity.
 
@@ -430,6 +430,7 @@ perfectly replicates human response diversity would achieve this value.
 \caption{Fleiss' Kappa by Respondent Type (RQ1)}
 \label{tab:kappa}
 \centering\small
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{llrrr}
 \toprule
 \textbf{Model} & \textbf{Phase} & $\boldsymbol{\kappa}$
@@ -453,12 +454,10 @@ LLaMA-3.3 (P5)    & 2    & 0.4812$^{\ddag}$ & $+$0.001 vs P1--P4 & $+$0.378 \\
 \multicolumn{5}{l}{\footnotesize $^{\dag}$Corrected value; Phase~1 paper
   reported $\kappa{=}0.180$ from an uncommitted}\\
 \multicolumn{5}{l}{\footnotesize intermediate file. The value 0.238 is authoritative.}\\
-\multicolumn{5}{l}{\footnotesize $^{\ddag}$P5 $\kappa$ values are from zero-shot inference
-  runs conducted independently of the P1--P4}\\
-\multicolumn{5}{l}{\footnotesize few-shot conditions. Raw responses and Kappa scripts
-  are at \url{https://github.com/tarun1219/SE\_LLM\_EVAL}}\\
-\multicolumn{5}{l}{\footnotesize for independent verification.}\\
-\end{tabular}
+\multicolumn{5}{l}{\footnotesize $^{\ddag}$P5 $\kappa$ values are from zero-shot inference runs conducted independently of P1--P4}\\
+\multicolumn{5}{l}{\footnotesize few-shot conditions. Raw responses and scripts:
+  \href{https://github.com/tarun1219/SE_LLM_EVAL}{\texttt{github.com/tarun1219/SE\_LLM\_EVAL}}}\\
+\end{tabular}}%% end resizebox
 \end{table}
 
 \begin{figure}[t]
@@ -815,7 +814,7 @@ activation-level analysis beyond the scope of this study.
 
 The \kp is the central theoretical contribution of this study.
 Na\"{i}vely, one would expect that more capable, better-aligned 2026 models
-would produce responses \emph{closer} to the human baseline than their 2023
+would produce responses closer to the human baseline than their 2023
 predecessors.
 Instead, Phase~2 models are further away by every Fleiss' Kappa measure:
 $\Delta \kappa_{\text{human}} = +0.377$ to $+0.384$ for Phase~2 vs.\
