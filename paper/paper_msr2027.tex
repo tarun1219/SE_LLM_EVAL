@@ -477,12 +477,6 @@ LLaMA-3.3 (P5)    & 2    & 0.4812 & $+$0.001 vs P1--P4 & $+$0.378 \\
   coordinates {(0.4804, 0.581) (0.4865, 0.759) (0.4799, 0.259)};
 \addlegendentry{Phase~2}
 
-%% ---- Human baseline (star) ----
-\addplot[only marks, mark=star, mark size=5pt,
-         draw=black, fill=black, line width=0.8pt]
-  coordinates {(0.1027, 0.722)};
-\addlegendentry{Human baseline}
-
 %% ---- Point labels ----
 \node[font=\tiny,anchor=south,yshift=2pt]
   at (axis cs:0.2413,0.001) {GPT-3.5};
@@ -494,8 +488,6 @@ LLaMA-3.3 (P5)    & 2    & 0.4812 & $+$0.001 vs P1--P4 & $+$0.378 \\
   at (axis cs:0.4865,0.759) {Claude~4-6};
 \node[font=\tiny,anchor=north west,xshift=2pt]
   at (axis cs:0.4799,0.259) {LLaMA-3.3};
-\node[font=\tiny,anchor=south east,xshift=-2pt,yshift=2pt]
-  at (axis cs:0.1027,0.722) {Human};
 \end{axis}
 \end{tikzpicture}
 \caption{\textbf{Kappa Paradox and Distribution Paradox: Joint View.}
@@ -503,10 +495,12 @@ The ideal synthetic respondent occupies the bottom-left quadrant: low
 $\kappa$ (diverse responses) and low $p$ (distributional divergence from
 humans). Phase~1 models (gray circles) achieve low $\kappa$ but high
 distributional divergence ($p{<}0.001$). Phase~2 models (black squares)
-achieve low divergence but pathologically high $\kappa$. No model
-approaches the human baseline (star). The two paradoxes are visually
-unified: RLHF moves models rightward (more uniform) and upward (more
-similar to the modal human distribution) simultaneously.}
+achieve low divergence but pathologically high $\kappa$. The two paradoxes
+are visually unified: RLHF moves models rightward (more uniform) and upward
+(more similar to the modal human distribution) simultaneously. The human
+baseline ($\kappa{=}0.1027$) is shown as a vertical dashed line; it is
+excluded from the scatter as it was not evaluated under the chi-square
+framework.}
 \label{fig:kappa}
 \end{figure}
 
@@ -726,7 +720,10 @@ its more verbose, paraphrase-rich answer style.
 
 \begin{table}[t]
 \caption{Per-Prompt Qasper Performance (Phase~2, BLEU-4 / METEOR).
-  P5 Qasper few-shot results are not evaluated (future work; see L7).}
+  P5 is evaluated zero-shot on the survey simulation task only (\S\ref{sec:results:p5});
+  few-shot CoT on Qasper is deferred because CoT exemplar construction for
+  document-grounded QA requires a separate annotation protocol distinct from
+  the P1--P4 few-shot setup.}
 \label{tab:prompts}
 \centering\small
 \setlength{\tabcolsep}{4pt}
@@ -911,7 +908,11 @@ survey respondent pool:
   it falls within $\pm 0.05$ of the expected human diversity level for
   your target population.
   $\kappa > 0.35$ with a diverse human baseline near $\kappa{\approx}0.10$
-  is a red flag.
+  is a red flag---this threshold corresponds to the midpoint between the
+  human baseline ($\kappa{=}0.103$) and the Phase~1 model mean
+  ($\kappa{\approx}0.240$), below which within-group uniformity remains
+  within the range observed for lighter-alignment models and above which
+  RLHF-induced convergence becomes the dominant signal.
 \item \textbf{Run chi-square distributional similarity tests.}
   Non-significant $\chi^2$ (p\,$>$\,0.05) against the human distribution
   is necessary but not sufficient---the \distrpar shows models can pass this
