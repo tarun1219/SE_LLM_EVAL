@@ -9,7 +9,7 @@ Uses tqdm progress bars. Saves after each profile so work is not lost on failure
 
 Run:
     cd /path/to/SE_LLM_EVAL
-    python -m inference.run_questionnaire --models gpt-4o claude-sonnet-4-6 llama-3.1-70b
+    python -m inference.run_questionnaire --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
     python -m inference.run_questionnaire --models gpt-4o  # single model
     python -m inference.run_questionnaire --dry-run        # print plan without calling APIs
 """
@@ -301,7 +301,7 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="Run questionnaire inference for new models")
     parser.add_argument("--models", nargs="+",
-                        default=["gpt-4o", "claude-sonnet-4-6", "llama-3.1-70b"],
+                        default=["gpt-4o", "claude-sonnet-4-6", "llama-3.3-70b"],
                         help="Model names to run")
     parser.add_argument("--prompts", nargs="+", type=int, default=[1, 2, 3, 4, 5],
                         help="Prompt numbers (1-5)")

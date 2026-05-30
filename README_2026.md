@@ -5,7 +5,7 @@ This README covers the **2026 extension** of the 2023 paper:
 > *"Assessing the Effectiveness of Large Language Models as Polling Participants
 > in Qualitative Research"*
 
-The extension adds three new models (GPT-4o, Claude Sonnet 4-6, LLaMA-3.1-70B),
+The extension adds three new models (GPT-4o, Claude Sonnet 4-6, LLaMA-3.3-70B),
 a new Chain-of-Thought prompt variant, GPT-4o-as-judge evaluation, and a
 longitudinal comparison answering whether RLHF-aligned models simulate human survey
 respondents better than their predecessors.
@@ -65,7 +65,7 @@ SE_LLM_EVAL/
 │   ├── llama2_profile_responses.csv   # 2023
 │   ├── GPT4o_responses.ipynb          # NEW 2026 — interactive GPT-4o
 │   ├── Claude_responses.ipynb         # NEW 2026 — interactive Claude Sonnet 4-6
-│   └── LLaMA31_responses.ipynb        # NEW 2026 — interactive LLaMA-3.1-70B
+│   └── LLaMA31_responses.ipynb        # NEW 2026 — interactive LLaMA-3.3-70B
 │
 ├── Qasper_analysis/
 │   ├── Data/                       # qasper-test-v0.3.json (original)
@@ -167,10 +167,10 @@ GROQ_API_KEY=gsk_...          # console.groq.com/keys
 |------|-------|-------|-----------------|
 | Questionnaire (10 profiles × 12 Q × 5 prompts × 2 shots) | GPT-4o | 1,200 | ~$3.60 |
 | Questionnaire | Claude Sonnet 4-6 | 1,200 | ~$2.40 |
-| Questionnaire | LLaMA-3.1-70B (Groq) | 1,200 | free tier |
+| Questionnaire | LLaMA-3.3-70B (Groq) | 1,200 | free tier |
 | Qasper inference (50 papers × 4 prompts × 1 shot) | GPT-4o | ~800 | ~$5.00 |
 | Qasper inference | Claude Sonnet 4-6 | ~800 | ~$2.00 |
-| Qasper inference | LLaMA-3.1-70B (Groq) | ~800 | free tier |
+| Qasper inference | LLaMA-3.3-70B (Groq) | ~800 | free tier |
 | GPT-4o-as-judge (100 pairs) | GPT-4o | 100 | ~$0.40 |
 | **Total (excluding Groq)** | | | **~$13.40** |
 

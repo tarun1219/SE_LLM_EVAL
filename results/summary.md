@@ -1,6 +1,6 @@
 # SE_LLM_EVAL — 2026 Longitudinal Results Summary
 
-Generated: 2026-05-29T12:10:16.262394
+Generated: 2026-05-30T01:57:46.684532
 
 ---
 
@@ -15,23 +15,23 @@ Generated: 2026-05-29T12:10:16.262394
 | Human              | 2023 | 0.10272 | — |
 | GPT-3.5-Turbo      | 2023 | 0.24127 | — |
 | LLaMA-2-7B         | 2023 | 0.23800 | — |
-| GPT-4o             | 2026 | ⏳ PENDING | ⏳ PENDING — run inference first |
-| Claude Sonnet 4-6  | 2026 | ⏳ PENDING | — |
-| LLaMA-3.1-70B      | 2026 | ⏳ PENDING | ⏳ PENDING — run inference first |
+| GPT-4o             | 2026 | 0.4804 | ⚠️  not improved (Δ=+0.239, further from human) |
+| Claude Sonnet 4-6  | 2026 | 0.48651 | — |
+| LLaMA-3.3-70B      | 2026 | 0.47985 | ⚠️  not improved (Δ=+0.242, further from human) |
 
 ---
 
 ### RQ2: Do 2026 models produce higher-quality Qasper answers?
 
 **GPT lineage (GPT-3.5-Turbo → GPT-4o):**
-  - BLEU-4: ⏳ PENDING
-  - ROUGE-L: ⏳ PENDING
-  - METEOR: ⏳ PENDING
-  - BERTScore F1: ⏳ PENDING
-  - QA Relevance: ⏳ PENDING
-  - Fluency (PPL): ⏳ PENDING
+  - BLEU-4: +0.0560 (✅ improved)
+  - ROUGE-L: -0.0922 (⚠️  regressed)
+  - METEOR: +0.1613 (✅ improved)
+  - BERTScore F1: -0.5904 (⚠️  regressed)
+  - QA Relevance: -0.5364 (⚠️  regressed)
+  - Fluency (PPL): -41.4000 (✅ improved)
 
-**LLaMA lineage (LLaMA-2-7B → LLaMA-3.1-70B):**
+**LLaMA lineage (LLaMA-2-7B → LLaMA-3.3-70B):**
   - BLEU-4: ⏳ PENDING
   - ROUGE-L: ⏳ PENDING
   - METEOR: ⏳ PENDING
@@ -46,8 +46,8 @@ Generated: 2026-05-29T12:10:16.262394
 The t-tests measure whether LLM responses differ significantly across demographic profiles
 (Age, Gender, Experience). Fewer significant differences = less demographic bias.
 
-- GPT lineage (GPT-3.5 → GPT-4o): ⏳ PENDING
-- LLaMA lineage (LLaMA-2 → LLaMA-3.1): ⏳ PENDING
+- GPT lineage (GPT-3.5 → GPT-4o): ✅ no demographic bias in either generation
+- LLaMA lineage (LLaMA-2 → LLaMA-3.1): ✅ no demographic bias in either generation
 
 **Interpretation**: RLHF-aligned models (GPT-4o, Claude Sonnet 4-6) are expected to
 produce more consistent responses across demographic profiles compared to their

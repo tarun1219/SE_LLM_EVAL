@@ -91,16 +91,19 @@ def fig1_pca() -> str:
         frames.append(df)
 
     for slug, fname, year in [
-        ("gpt4o",   "gpt4o_p4_few_responses.csv",     "2026"),
-        ("claude",  "claudesonnet46_p4_few_responses.csv", "2026"),
-        ("llama31", "llama3170b_p4_few_responses.csv", "2026"),
+        ("gpt4o",   "gpt4o_p4_few_responses.csv",        "2026"),
+        ("claude",  "claudesonnet_p4_few_responses.csv",  "2026"),
+        ("llama31", "llama3370b_p4_few_responses.csv",    "2026"),
     ]:
         p = LLM / fname
         if not p.exists():
             continue
         df = pd.read_csv(p)
-        col = "Option IDs" if "Option IDs" in df.columns else "Answer"
-        df = df[[col, "question" if "question" in df.columns else "Question"]].copy()
+        # normalise column names (2026 CSVs use lowercase)
+        df.columns = [c.lower() for c in df.columns]
+        col = "option_ids" if "option_ids" in df.columns else "answer"
+        q_col = "question"
+        df = df[[col, q_col]].copy()
         df.columns = ["ans", "Question"]
         df["respondent_type"] = slug
         df["year"] = year
@@ -120,26 +123,45 @@ def fig1_pca() -> str:
     le = LabelEncoder()
     all_df["enc"] = le.fit_transform(all_df["ans"].astype(str))
 
+    # Pivot to (respondent × question) matrix for proper multi-feature PCA
+    def _build_pivot(sub_df):
+        pivot = sub_df.pivot_table(
+            index=sub_df.index, columns="Question",
+            values="enc", aggfunc="first"
+        ).fillna(0)
+        return pivot
+
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     for ax, year, title in [(axes[0], "2023", "2023 Baseline"),
                              (axes[1], "2026", "2026 New Models")]:
-        sub = all_df[all_df["year"] == year]
+        sub = all_df[all_df["year"] == year].copy()
         if sub.empty:
             ax.text(0.5, 0.5, "No data", ha="center", va="center",
                     transform=ax.transAxes, color="grey")
             ax.set_title(title)
             continue
-        pca = PCA(n_components=2, random_state=42)
-        comps = pca.fit_transform(sub[["enc"]].values)
-        for rtype in sub["respondent_type"].unique():
-            mask = sub["respondent_type"] == rtype
+        pivot = _build_pivot(sub)
+        rtypes = sub.loc[pivot.index, "respondent_type"].values
+        n_comp = min(2, pivot.shape[1])
+        pca = PCA(n_components=n_comp, random_state=42)
+        comps_raw = pca.fit_transform(pivot.values)
+        # Ensure 2 columns (add jitter column if only 1 component)
+        if comps_raw.shape[1] < 2:
+            rng = np.random.RandomState(42)
+            comps = np.column_stack([comps_raw, rng.randn(len(comps_raw)) * 0.1])
+            var_explained = [pca.explained_variance_ratio_[0] * 100, 0.0]
+        else:
+            comps = comps_raw
+            var_explained = pca.explained_variance_ratio_ * 100
+        for rtype in np.unique(rtypes):
+            mask = rtypes == rtype
             ax.scatter(comps[mask, 0], comps[mask, 1],
                        label=DISPLAY.get(rtype, rtype),
                        color=COLORS.get(rtype, "grey"),
                        alpha=0.65, s=40, edgecolors="white", linewidths=0.5)
         ax.set_title(title, fontweight="bold")
-        ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-        ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
+        ax.set_xlabel(f"PC1 ({var_explained[0]:.1f}%)")
+        ax.set_ylabel(f"PC2 ({var_explained[1]:.1f}%)")
         ax.legend(framealpha=0.9, fontsize=9)
 
     fig.suptitle("PCA of Response Distributions: 2023 vs 2026", fontweight="bold", y=1.01)

@@ -167,14 +167,32 @@ def _load_all_responses() -> dict[str, pd.DataFrame]:
 
     # 2026 — load best prompt variant (P4 few-shot) if available
     for model_slug, label in [
-        ("gpt4o",    "gpt4o"),
-        ("claudesonnet46", "claude"),
-        ("llama3170b",   "llama31"),
+        ("gpt4o",         "gpt4o"),
+        ("claudesonnet",  "claude"),   # actual slug is claudesonnet (not claudesonnet46)
+        ("llama3370b",    "llama31"),  # actual slug is llama3370b (not llama3170b)
     ]:
         p4_few = LLM_DIR / f"{model_slug}_p4_few_responses.csv"
         if p4_few.exists():
-            dfs[label] = pd.read_csv(p4_few)
-            print(f"  Loaded 2026: {label} from {p4_few.name}")
+            df26 = pd.read_csv(p4_few)
+            # Normalise column names to match 2023 baseline expectations
+            col_map = {}
+            for c in df26.columns:
+                if c.lower() == "answer":
+                    col_map[c] = "Answer"
+                elif c.lower() == "option_ids":
+                    col_map[c] = "Option IDs"
+                elif c.lower() == "age":
+                    col_map[c] = "Age"
+                elif c.lower() == "gender":
+                    col_map[c] = "Gender"
+                elif c.lower() == "experience":
+                    col_map[c] = "Experience"
+                elif c.lower() == "question":
+                    col_map[c] = "Question"
+            if col_map:
+                df26 = df26.rename(columns=col_map)
+            dfs[label] = df26
+            print(f"  Loaded 2026: {label} from {p4_few.name} ({len(df26)} rows)")
         else:
             print(f"  [missing] {p4_few.name} — run inference.run_questionnaire first")
 
@@ -228,7 +246,7 @@ def main() -> None:
         "llama2": ("llama2_profile", None),
     }
     # Add 2026 models if profile CSVs exist
-    for model_slug, label in [("gpt4o","gpt4o"),("claudesonnet46","claude"),("llama3170b","llama31")]:
+    for model_slug, label in [("gpt4o","gpt4o"),("claudesonnet","claude"),("llama3370b","llama31")]:
         p4 = LLM_DIR / f"{model_slug}_p4_few_responses.csv"
         if p4.exists():
             profile_pairs[label] = (label, None)

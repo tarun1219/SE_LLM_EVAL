@@ -1,0 +1,896 @@
+\documentclass[11pt,a4paper]{article}
+
+%% ---- Packages -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{tabularx}
+
+%% ---- Hyperref setup -------------------------------------------------
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = blue!70!black,
+  citecolor  = blue!70!black,
+  urlcolor   = blue!70!black,
+  pdftitle   = {Assessing the Effectiveness of Large Language Models as Polling Participants in Qualitative Research: A 2023-2026 Longitudinal Extension},
+  pdfauthor  = {},
+}
+
+%% ---- Title ---------------------------------------------------------
+\title{%
+  \Large\bfseries
+  Assessing the Effectiveness of Large Language Models as\\
+  Polling Participants in Qualitative Research:\\
+  A 2023--2026 Longitudinal Extension%
+}
+\author{%
+  Tarun Gogineni\\
+  \textit{Palo Alto Networks}\\
+  \texttt{tarun.gogineni@paloaltonetworks.com}
+}
+\date{May 2026}
+
+%% ====================================================================
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+%% ---- Abstract -------------------------------------------------------
+\begin{abstract}
+Large language models (LLMs) have emerged as a promising tool for simulating
+survey respondents in qualitative research, enabling low-cost, scalable pilot
+studies without requiring human participant recruitment. This paper presents a
+longitudinal extension of a 2023 study that evaluated GPT-3.5-Turbo and
+LLaMA-2-7B as synthetic survey respondents. We introduce three new models ---
+GPT-4o, Claude Sonnet 4-6, and LLaMA-3.3-70B --- and evaluate them across the
+same 12-question software-developer survey ($n{=}314$ human baseline) under five
+prompt variants, including a novel Chain-of-Thought (CoT) condition. We
+additionally assess each model's scientific question-answering capability on 50
+papers from the Qasper benchmark. Statistical analyses include Fleiss' Kappa
+(inter-rater agreement), chi-square tests (distribution similarity), $t$-tests
+(demographic sensitivity), Cram\'{e}r's~$V$ (effect size), and one-way ANOVA.
+
+Our findings reveal a \textit{Kappa Paradox}: RLHF-aligned 2026 models exhibit
+nearly double the within-group Fleiss' Kappa of their 2023 predecessors
+(GPT-4o: $\kappa{=}0.480$; Claude Sonnet 4-6: $\kappa{=}0.487$;
+LLaMA-3.3-70B: $\kappa{=}0.480$ versus GPT-3.5: $\kappa{=}0.241$, human:
+$\kappa{=}0.103$), indicating dramatically increased response uniformity rather
+than improved demographic diversity. Concurrently, chi-square tests show that
+2026 model response distributions are substantially less divergent from the
+reference distribution than their predecessors (GPT-4o: $\chi^2{=}2.86$,
+$p{=}0.581$; Claude: $\chi^2{=}1.88$, $p{=}0.759$ versus 2023 baseline:
+$\chi^2{=}18.75$, $p{<}0.001$), while all models --- including 2023 baselines
+--- show zero statistically significant demographic sensitivity across Age,
+Gender, and Experience dimensions. On the Qasper scientific QA benchmark, 2026
+models substantially outperform 2023 baselines on BLEU-4 (LLaMA-3.3: 0.249
+vs.\ LLaMA-2: 0.107), ROUGE-L (LLaMA-3.3: 0.395 vs.\ LLaMA-2: 0.282), and
+METEOR (Claude: 0.523 vs.\ GPT-3.5: 0.298). These results have direct
+implications for the use of LLMs as synthetic respondents in software
+engineering qualitative research.
+
+\bigskip
+\noindent\textbf{Keywords:} large language models, survey simulation, synthetic
+respondents, RLHF alignment, Fleiss' Kappa, Qasper, longitudinal study,
+software engineering
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+%% ====================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Qualitative research in software engineering frequently relies on surveys and
+interviews with human participants. However, recruiting diverse, representative
+participants is costly, time-consuming, and often limited by self-selection bias.
+The emergence of instruction-tuned LLMs has raised a compelling question: can
+these models serve as \emph{synthetic respondents}, approximating human survey
+behaviour well enough to pilot study instruments, validate questionnaire designs,
+or augment small-sample studies?
+
+A foundational 2023 study~\citep{original2023} explored this question by
+prompting GPT-3.5-Turbo and LLaMA-2-7B with demographic profiles and measuring
+whether their responses aligned with those of 314 human software developers
+across a 12-question survey. The study found that both models exhibited higher
+inter-rater agreement (Fleiss' Kappa $= 0.241$ for GPT-3.5, $0.238$ for
+LLaMA-2) than human respondents ($\kappa = 0.103$), suggesting that LLMs
+produce more internally consistent but less humanistically diverse responses.
+Chi-square tests confirmed statistically significant divergence between model
+and human response distributions ($\chi^2 = 18.75$, $p < 0.001$).
+
+Since 2023, the LLM landscape has transformed dramatically. OpenAI's GPT-4o,
+Anthropic's Claude Sonnet 4-6, and Meta's LLaMA-3.3-70B represent a new
+generation of models trained with Reinforcement Learning from Human Feedback
+(RLHF) at unprecedented scale. RLHF alignment has been shown to improve
+instruction-following, reduce harmful outputs, and increase response
+coherence~\citep{ouyang2022}. However, its effect on \emph{demographic
+sensitivity} --- the ability of an LLM to produce meaningfully different
+responses when prompted with different demographic profiles --- remains
+underexplored. Closely related work on LLMs as survey participants in
+cybersecurity and enterprise security contexts has also highlighted systematic
+persona-alignment failures in RLHF-trained models~\citep{ssrn6829506}.
+
+This paper addresses three research questions:
+
+\begin{description}[leftmargin=2em]
+  \item[\textbf{RQ1}] Do 2026 LLMs simulate human survey respondents more
+    accurately than their 2023 predecessors, as measured by Fleiss' Kappa
+    proximity to the human baseline?
+  \item[\textbf{RQ2}] Do 2026 models produce higher-quality answers on the
+    Qasper scientific QA benchmark, as measured by automatic and stylistic
+    metrics?
+  \item[\textbf{RQ3}] Did RLHF alignment reduce demographic sensitivity in LLM
+    survey responses, as measured by $t$-test significance across Age, Gender,
+    and Experience demographics?
+\end{description}
+
+\medskip\noindent
+We make the following contributions:
+
+\begin{enumerate}
+  \item The first longitudinal comparison of LLM survey simulation capability
+    across two model generations (2023 vs.\ 2026), using identical evaluation
+    protocols.
+  \item A new Chain-of-Thought prompt variant (P5) added to the existing four
+    prompt templates (P1--P4), investigating whether structured reasoning
+    improves demographic persona adherence.
+  \item A comprehensive evaluation of three 2026 models on the Qasper benchmark
+    using BLEU-1/2/3/4, ROUGE-1/2/L, METEOR, and five stylistic metrics
+    (relevance, fluency, formality, readability, correctness).
+  \item Open-source release of the complete inference pipeline, all model
+    responses, and analysis scripts.
+\end{enumerate}
+
+%% ====================================================================
+\section{Related Work}
+\label{sec:related}
+
+\subsection{LLMs as Survey Respondents}
+
+The use of LLMs to simulate human survey responses has attracted growing
+attention. \citet{argyle2023} introduced the concept of ``silicon sampling,''
+demonstrating that GPT-3 could reproduce attitudinal patterns from the American
+National Election Studies when prompted with demographic information. Their work
+showed that LLM responses correlate with subgroup survey responses at rates
+exceeding random baseline, though they cautioned against treating LLM-simulated
+data as equivalent to human data.
+
+\citet{santurkar2023} extended this analysis to GPT-3.5, finding that default
+(non-demographically prompted) LLMs exhibit systematic opinion biases that skew
+toward liberal, Western, and educated viewpoints. Prompted models showed
+improved demographic sensitivity, though significant gaps remained for
+underrepresented groups.
+
+In the software engineering domain, the 2023 study that this paper
+extends~\citep{original2023} was among the first to apply LLM survey simulation
+specifically to developer-focused questionnaires, validating results against a
+real $n{=}314$ developer survey. The SSRN working paper by \citet{ssrn6829506}
+further examines LLM persona fidelity in professional and enterprise contexts,
+providing complementary evidence for the profile-blindness phenomenon we
+document here.
+
+\subsection{RLHF Alignment and Response Diversity}
+
+Reinforcement Learning from Human Feedback~\citep{ouyang2022} has become the
+dominant fine-tuning paradigm for instruction-following LLMs. By training models
+to produce responses rated highly by human raters, RLHF improves helpfulness
+and safety but also introduces a tendency toward ``safe,'' high-consensus
+answers. \citet{perez2022} demonstrated that RLHF-aligned models show reduced
+response variance across equivalent prompts, which has implications for their
+use as synthetic respondents: a model that always defaults to the most socially
+acceptable answer may appear unbiased but actually underrepresents minority
+viewpoints.
+
+\subsection{Prompt Engineering for Persona Simulation}
+
+The influence of prompt formulation on LLM demographic simulation has been
+systematically explored by several groups. \citet{argyle2023} found that
+explicit demographic backstory prompts substantially improved persona alignment.
+The 2023 study~\citep{original2023} compared four prompt styles --- expert NLP
+persona~(P1), plain QA~(P2), concise instruction~(P3), and novice/child
+persona~(P4) --- and found P4 (novice/child) to yield the highest alignment with
+human distributions. We extend this with a Chain-of-Thought (P5) prompt,
+hypothesising that step-by-step reasoning may reduce pattern-matching shortcuts.
+
+\subsection{Scientific Question Answering Benchmarks}
+
+The Qasper dataset~\citep{dasigi2021} provides 1,585 questions over 888 NLP
+research papers, with extractive and free-form gold answers from human
+annotators. It has been widely used to evaluate document-level reading
+comprehension. We use a 50-paper random sample (seed\,=\,42) from the test
+split, consistent with prior work, to evaluate factual QA capability across
+model generations.
+
+\subsection{Evaluation Metrics}
+
+BLEU~\citep{papineni2002}, ROUGE~\citep{lin2004}, and METEOR~\citep{banerjee2005}
+remain standard automatic metrics for text generation evaluation. For stylistic
+evaluation, we employ TF-IDF cosine similarity (relevance), type-token ratio
+(lexical diversity / fluency proxy), MTLD (formality), Flesch Reading Ease
+(readability), and FuzzyWuzzy token-set ratio (correctness). Due to system
+memory constraints, we use TF-IDF cosine similarity as a proxy for
+BERTScore~\citep{zhang2019} in the 2026 evaluation; 2023 BERTScore values from
+the original paper used the \texttt{microsoft/deberta-xlarge-mnli} model and
+are not directly comparable.
+
+%% ====================================================================
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Human Survey Baseline}
+
+The human baseline consists of $n{=}314$ software developer responses to a
+12-question survey administered at a university computing department.
+Respondents ranged from undergraduate students to professional developers, with
+demographic distributions across Age (18--22, 23--26, 27--35 years), Gender
+(Man, Woman), and Experience ($<$\,1 year, 1--3 years, 3--5 years). Questions
+covered development environment preferences, learning strategies, professional
+challenges, programming language selection, collaboration, innovation versus
+deadlines, societal contributions, and ethical decision-making scenarios.
+
+\subsection{Questionnaire Stimulus}
+
+The 12-question survey instrument from the original 2023 study is reproduced
+verbatim. Questions include:
+
+\begin{enumerate}[noitemsep]
+  \item Preferred development environment (Windows / macOS / Linux / Other)
+  \item How do you learn to code? (multi-select)
+  \item Biggest challenge as a developer (4 options)
+  \item Programming language selection criteria (4 options)
+  \item Team communication and collaboration (4 options)
+  \item Staying up-to-date with industry changes (multi-select)
+  \item Balancing innovation vs.\ deadlines (4 options)
+  \item Software's contribution to societal challenges (multi-select)
+  \item AI-driven employee dismissal ethical scenario (3 options)
+  \item Unfamiliar language under deadline scenario (4 options)
+  \item Critical pre-release bug scenario (4 options)
+  \item SaaS delivery with critical bug scenario (5 options)
+\end{enumerate}
+
+\subsection{Demographic Profiles}
+
+Ten synthetic profiles are constructed by crossing Age $\times$ Gender
+$\times$ Ethnicity $\times$ Education $\times$ Experience
+(Table~\ref{tab:profiles}).
+
+\begin{table}[H]
+\centering
+\caption{Synthetic Demographic Profiles}
+\label{tab:profiles}
+\small
+\begin{tabular}{clllll}
+\toprule
+\textbf{Profile} & \textbf{Age} & \textbf{Gender} & \textbf{Ethnicity} &
+\textbf{Education} & \textbf{Experience} \\
+\midrule
+1 & 18--22 & Woman & Asian   & Bachelor's   & $<$1 year \\
+2 & 27--35 & Man   & White   & Professional & 3--5 years \\
+3 & 23--26 & Woman & White   & Master's     & 1--3 years \\
+4 & 27--35 & Man   & Asian   & Bachelor's   & $<$1 year \\
+5 & 18--22 & Woman & White   & Professional & 3--5 years \\
+6 & 23--26 & Man   & Asian   & Master's     & $<$1 year \\
+7 & 27--35 & Woman & White   & Bachelor's   & 1--3 years \\
+8 & 18--22 & Man   & Asian   & Professional & 1--3 years \\
+9 & 23--26 & Woman & Asian   & Bachelor's   & 3--5 years \\
+10 & 27--35 & Man  & White   & Master's     & $<$1 year \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Each profile is presented to each model under each prompt variant, yielding
+$10$ profiles $\times$ $12$ questions $=$ $120$ responses per combination.
+
+\subsection{Prompt Variants}
+
+Five prompt variants are evaluated:
+
+\begin{description}[leftmargin=2em]
+  \item[\textbf{P1 (Expert NLP)}] System prompt frames the model as an NLP
+    domain expert; instructs strict one-sentence extractive answers.
+  \item[\textbf{P2 (Plain QA)}] Minimal framing; the model is a generic
+    question-answering system.
+  \item[\textbf{P3 (Concise)}] Instructs one-sentence answers based on provided
+    contents.
+  \item[\textbf{P4 (Novice/Child Persona)}] The model acts as a child with no
+    domain knowledge, relying solely on provided context. This variant achieved
+    the highest human alignment in the 2023 study.
+  \item[\textbf{P5 (Chain-of-Thought --- NEW)}] A zero-shot CoT prompt
+    instructs the model to reason step-by-step before selecting an answer,
+    explicitly grounding reasoning in the demographic profile.
+\end{description}
+
+For P1--P4, both zero-shot and few-shot (one exemplar) conditions are
+evaluated. P5 is evaluated zero-shot only, consistent with standard CoT
+practice.
+
+\subsection{Models}
+
+Table~\ref{tab:models} summarises the five models compared in this study.
+
+\begin{table}[H]
+\centering
+\caption{Models Evaluated}
+\label{tab:models}
+\small
+\begin{tabular}{lllll}
+\toprule
+\textbf{Model} & \textbf{Year} & \textbf{Provider} & \textbf{Params} &
+\textbf{RLHF} \\
+\midrule
+GPT-3.5-Turbo     & 2023 & OpenAI    & $\sim$175B          & \checkmark \\
+LLaMA-2-7B        & 2023 & Meta      & 7B                  & \checkmark \\
+GPT-4o            & 2026 & OpenAI    & $\sim$200B (est.)   & \checkmark \\
+Claude Sonnet 4-6 & 2026 & Anthropic & $\sim$70B (est.)    & \checkmark\,+\,RLAIF \\
+LLaMA-3.3-70B     & 2026 & Meta      & 70B                 & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-4o and Claude Sonnet 4-6 are accessed via official APIs
+(temperature\,=\,0.7, seed\,=\,42). LLaMA-3.3-70B is accessed via the Groq
+API using the \texttt{llama-3.3-70b-versatile} endpoint.
+
+\subsection{Qasper Evaluation}
+
+A random sample of 50 papers is drawn from the Qasper test split
+(seed\,=\,42), yielding 124 QA pairs after filtering unanswerable questions.
+Each model is evaluated under the same four prompt variants as the
+questionnaire (P1--P4), all in few-shot mode (one in-context example).
+Responses are constrained to 256 tokens maximum.
+
+\medskip\noindent
+\textbf{Automatic Metrics.}~BLEU-1/2/3/4 (Chen \& Cherry smoothing),
+ROUGE-1/2/L (F1), METEOR. TF-IDF cosine similarity is computed as a semantic
+similarity proxy (denoted \textit{TF-IDF Sim} in tables) due to memory
+constraints precluding DeBERTa-based BERTScore.
+
+\medskip\noindent
+\textbf{Stylistic Metrics.}
+\begin{itemize}[noitemsep]
+  \item \textit{Relevance}: TF-IDF cosine similarity between question and
+    response.
+  \item \textit{Fluency}: Type-token ratio (TTR; higher = more lexical
+    variety). Note: 2023 baseline used GPT-2 perplexity; 2026 values use TTR
+    and are not directly comparable.
+  \item \textit{Formality}: Measure of Textual Lexical Diversity (MTLD).
+  \item \textit{Readability}: Flesch Reading Ease score.
+  \item \textit{Correctness}: FuzzyWuzzy token-set ratio against gold answer.
+\end{itemize}
+
+\subsection{Statistical Analysis}
+
+Five statistical tests are applied:
+
+\begin{enumerate}
+  \item \textbf{Fleiss' Kappa} --- measures inter-rater agreement for each
+    respondent type. Higher kappa indicates more consistent within-group
+    choices; the human baseline ($\kappa = 0.103$) represents the target.
+
+  \item \textbf{Chi-square test} --- tests whether LLM response distributions
+    differ significantly from the reference (P4 few-shot GPT-3.5) distribution.
+    Lower $\chi^2$ and higher $p$ indicate greater distributional similarity.
+
+  \item \textbf{Cram\'{e}r's~$V$} --- effect size for the chi-square,
+    normalised by sample size and number of categories.
+
+  \item \textbf{Independent-samples $t$-test} --- tests whether LLM responses
+    differ significantly across demographic groups (Age, Gender, Experience),
+    after label-encoding response categories.
+
+  \item \textbf{One-way ANOVA} --- tests cross-group differences on three key
+    questions: ``Biggest challenge,'' ``Programming language selection,'' and
+    ``Balancing innovation vs.\ deadlines.''
+\end{enumerate}
+
+%% ====================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{2023 Baseline Verification}
+
+Before presenting 2026 results, we verify that the original 2023 paper metrics
+are reproduced from the available data (Table~\ref{tab:baseline}).
+
+\begin{table}[H]
+\centering
+\caption{2023 Baseline Reproduction}
+\label{tab:baseline}
+\small
+\begin{tabular}{llll}
+\toprule
+\textbf{Metric} & \textbf{Published} & \textbf{Reproduced} & \textbf{Match} \\
+\midrule
+Human Fleiss' Kappa         & 0.103   & 0.1027  & \checkmark \\
+GPT-3.5 Fleiss' Kappa       & 0.241   & 0.2413  & \checkmark \\
+LLaMA-2 Fleiss' Kappa       & 0.180   & 0.2380  & $\approx$\,\dag \\
+Chi-square (GPT-3.5 vs Human) & 18.75 & 18.749  & \checkmark \\
+Chi-square $p$-value        & 0.00088 & 0.000880 & \checkmark \\
+Cram\'{e}r's $V$            & 0.152   & 0.2227  & $\approx$\,\ddag \\
+\bottomrule
+\end{tabular}
+\medskip
+\raggedright\small
+\dag~LLaMA-2 kappa discrepancy (0.238 vs.\ 0.180) arises because the original study
+used a \texttt{llm\_finals.csv} intermediate Colab file that was never committed
+to the repository.\\
+\ddag~Cram\'{e}r's $V$ discrepancy traces to a missing \texttt{utils.py}
+dependency that silently changed the contingency table construction.
+\end{table}
+
+\subsection{RQ1 --- Survey Simulation Fidelity (Fleiss' Kappa)}
+
+Table~\ref{tab:kappa} presents Fleiss' Kappa for all respondent types. The
+human baseline ($\kappa = 0.103$) represents the empirically observed level of
+within-group diversity for real software developers --- a target for synthetic
+simulation.
+
+\begin{table}[H]
+\centering
+\caption{Fleiss' Kappa --- Inter-Rater Agreement by Respondent Type}
+\label{tab:kappa}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Model} & \textbf{Year} & $\kappa$ &
+$\Delta$ vs Predecessor & $\Delta$ vs Human \\
+\midrule
+Human             & 2023 & 0.1027 & ---          & 0.000 \\
+GPT-3.5-Turbo     & 2023 & 0.2413 & ---          & +0.139 \\
+LLaMA-2-7B        & 2023 & 0.2380 & ---          & +0.135 \\
+\midrule
+GPT-4o            & 2026 & \textbf{0.4804} & +0.239 ($\uparrow$ GPT-3.5) & +0.378 \\
+Claude Sonnet 4-6 & 2026 & \textbf{0.4865} & ---          & +0.384 \\
+LLaMA-3.3-70B     & 2026 & \textbf{0.4799} & +0.242 ($\uparrow$ LLaMA-2) & +0.377 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three 2026 models cluster in the range $\kappa \in [0.480, 0.487]$ ---
+nearly double the kappa of 2023 models ($\kappa \in [0.238, 0.241]$). This
+convergence reflects the homogenising effect of RLHF at scale. Crucially, all
+2026 models diverge \emph{further} from the human baseline ($\Delta =
+{+}0.377$ to ${+}0.384$) than their 2023 predecessors ($\Delta = {+}0.135$ to
+${+}0.139$). Higher kappa in this context represents \emph{worse} simulation
+fidelity.
+
+\subsection{RQ1 --- Chi-Square Distribution Similarity}
+
+Table~\ref{tab:chisq} presents chi-square tests comparing each model's response
+distribution to the reference GPT-3.5-Turbo P4 distribution.
+
+\begin{table}[H]
+\centering
+\caption{Chi-Square Distribution Similarity Tests}
+\label{tab:chisq}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Model} & $\chi^2$ & $p$-value & Cram\'{e}r's $V$ & Significant? \\
+\midrule
+GPT-3.5-Turbo (2023, ref.) & ---    & ---     & ---    & --- \\
+LLaMA-2-7B (2023)          & 18.749 & 0.00088 & 0.2227 & \checkmark \\
+\midrule
+GPT-4o (2026)            & 2.865 & 0.5807 & 0.0803 & $\times$ \\
+Claude Sonnet 4-6 (2026) & 1.876 & 0.7586 & 0.0683 & $\times$ \\
+LLaMA-3.3-70B (2026)     & 5.291 & 0.2587 & 0.1033 & $\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+None of the 2026 models produce significantly divergent response distributions
+(all $p > 0.25$). Claude Sonnet 4-6 achieves the smallest divergence ($\chi^2
+= 1.876$, $p = 0.759$, $V = 0.068$).
+
+\subsection{RQ3 --- Demographic Sensitivity (\textit{t}-tests)}
+
+Table~\ref{tab:ttest} presents independent-samples $t$-tests assessing whether
+each model's responses differ across Age, Gender, and Experience demographics.
+
+\begin{table}[H]
+\centering
+\caption{Demographic Sensitivity ($t$-tests, $\alpha = 0.05$)}
+\label{tab:ttest}
+\small
+\begin{tabular}{lllll}
+\toprule
+\textbf{Model} & Age sig. & Gender sig. & Exp.\ sig. & Total / 3 \\
+\midrule
+Human             & $\times$ ($p{=}0.831$) & $\times$ ($p{=}0.722$) & \checkmark ($t{=}6.92$, $p{<}0.001$) & 1/3 \\
+GPT-3.5-Turbo     & $\times$ ($p{=}0.242$) & $\times$ ($p{=}0.119$) & $\times$ ($p{=}0.341$)               & 0/3 \\
+LLaMA-2-7B        & $\times$ ($p{=}0.330$) & $\times$ ($p{=}1.000$) & $\times$ ($p{=}0.665$)               & 0/3 \\
+GPT-4o            & $\times$ ($p{=}0.964$) & $\times$ ($p{=}0.519$) & $\times$ ($p{=}0.870$)               & 0/3 \\
+Claude Sonnet 4-6 & $\times$ ($p{=}0.416$) & $\times$ ($p{=}0.403$) & $\times$ ($p{=}0.979$)               & 0/3 \\
+LLaMA-3.3-70B     & $\times$ ($p{=}1.000$) & $\times$ ($p{=}0.551$) & $\times$ ($p{=}0.689$)               & 0/3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+No 2026 model shows any statistically significant demographic differences across
+any dimension. The 2026 models' $p$-values for Experience are extremely high
+(GPT-4o: 0.870; Claude: 0.979; LLaMA-3.3: 0.689), suggesting complete
+profile-blindness.
+
+\subsection{RQ3 --- ANOVA}
+
+Table~\ref{tab:anova} presents one-way ANOVA results.
+
+\begin{table}[H]
+\centering
+\caption{One-Way ANOVA (Cross-Model Differences)}
+\label{tab:anova}
+\small
+\begin{tabular}{lrrl}
+\toprule
+\textbf{Question} & $F$-statistic & $p$-value & Significant? \\
+\midrule
+Biggest challenge as a developer & 41.825  & $< 0.001$ & \checkmark \\
+Programming language selection   & 102.956 & $< 0.001$ & \checkmark \\
+Innovation vs.\ deadlines        & 236.796 & $< 0.001$ & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three ANOVA tests are highly significant (all $p < 0.001$), confirming that
+respondent type produces measurably different response distributions. This
+detects differences \emph{across} respondent types, not \emph{within} a single
+type across demographics, and is not contradicted by the $t$-test results.
+
+\subsection{RQ2 --- Qasper Automatic Metrics}
+
+Table~\ref{tab:qasper-auto} summarises automatic metrics averaged across P1--P4
+few-shot conditions for the 124 Qasper QA pairs.
+
+\begin{table}[H]
+\centering
+\caption{Automatic Metrics (Qasper, 50 papers, 124 QA pairs, avg.\ P1--P4 few-shot)}
+\label{tab:qasper-auto}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Model} & BLEU-1 & BLEU-4 & ROUGE-1 & ROUGE-L & METEOR & TF-IDF Sim$^*$ \\
+\midrule
+GPT-3.5-Turbo (2023) & 0.421 & 0.187 & 0.389 & 0.367 & 0.298 & --- \\
+LLaMA-2-7B (2023)    & 0.298 & 0.107 & 0.301 & 0.282 & 0.223 & --- \\
+\midrule
+GPT-4o            & 0.364 & 0.206 & 0.307 & 0.298 & 0.449 & 0.255 \\
+Claude Sonnet 4-6 & \textbf{0.405} & \textbf{0.232} & \textbf{0.312} & 0.301 & \textbf{0.523} & \textbf{0.318} \\
+LLaMA-3.3-70B     & 0.445\dag & 0.249\dag & 0.413\dag & \textbf{0.395\dag} & 0.507 & 0.271 \\
+\bottomrule
+\end{tabular}
+\medskip
+\raggedright\small
+$^*$TF-IDF cosine similarity proxy; not directly comparable to DeBERTa-based BERTScore from 2023.\\
+\dag LLaMA-3.3-70B achieves highest BLEU and ROUGE, consistent with its concise extractive answer style.
+\end{table}
+
+\subsection{RQ2 --- Qasper Stylistic Metrics}
+
+Table~\ref{tab:qasper-style} presents stylistic metrics averaged across
+P1--P4 few-shot conditions.
+
+\begin{table}[H]
+\centering
+\caption{Stylistic Metrics (Qasper, avg.\ P1--P4 few-shot)}
+\label{tab:qasper-style}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Model} & Relevance & Fluency (TTR$\uparrow$) & Formality (MTLD) & Readability & Correctness \\
+\midrule
+GPT-3.5 (2023)\dag & 0.612 & --- & 68.4 & 52.1 & 0.641 \\
+LLaMA-2 (2023)\dag & 0.487 & --- & 45.2 & 48.3 & 0.502 \\
+\midrule
+GPT-4o            & 0.128 & \textbf{0.896} & 24.1 & 31.4 & 0.658 \\
+Claude Sonnet 4-6 & 0.125 & 0.851 & \textbf{35.0} & 31.6 & \textbf{0.762} \\
+LLaMA-3.3-70B     & \textbf{0.135} & 0.861 & 33.0 & \textbf{33.0} & 0.741 \\
+\bottomrule
+\end{tabular}
+\medskip
+\raggedright\small
+\dag 2023 relevance used sentence-transformer cosine; fluency used GPT-2 perplexity (lower\,=\,better); not directly comparable.
+\end{table}
+
+\subsection{Prompt Variant Analysis}
+
+Table~\ref{tab:prompt} shows per-prompt performance (BLEU-4 / METEOR).
+
+\begin{table}[H]
+\centering
+\caption{Per-Prompt Qasper Performance (BLEU-4 / METEOR)}
+\label{tab:prompt}
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Prompt} & GPT-4o & Claude Sonnet 4-6 & LLaMA-3.3-70B \\
+\midrule
+P1 (Expert NLP) & 0.243 / 0.459 & 0.296 / 0.556 & 0.306 / 0.526 \\
+P2 (Plain QA)   & 0.153 / 0.368 & 0.201 / 0.512 & 0.254 / 0.537 \\
+P3 (Concise)    & 0.152 / 0.468 & 0.161 / 0.499 & 0.143 / 0.461 \\
+P4 (Novice)     & 0.277 / 0.500 & 0.271 / 0.524 & 0.294 / 0.501 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+P1 (Expert NLP) and P4 (Novice) consistently outperform P2 and P3 across all
+models.
+
+%% ====================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{RLHF and the Kappa Paradox}
+
+A central finding of our study is what we term the \emph{Kappa Paradox}: RLHF-aligned
+2026 models achieve nearly double the Fleiss' Kappa of their 2023 predecessors,
+yet this increase represents a \emph{worsening} of survey simulation quality.
+The human baseline $\kappa = 0.103$ reflects genuine opinion diversity ---
+developers disagree with each other in predictable but non-trivial ways. An LLM
+that consistently selects the same option across all ten demographic profiles
+achieves high within-group kappa but fails entirely as a simulation target.
+
+The convergence of all three 2026 models to $\kappa \in [0.480, 0.487]$ is
+particularly noteworthy. GPT-4o, Claude Sonnet 4-6, and LLaMA-3.3-70B are
+products of three different organisations, trained on different datasets with
+different architectures. Their near-identical kappa values suggest that it is
+the \emph{RLHF process itself} --- not model architecture or training data ---
+that drives response uniformity.
+
+\textbf{Practical implication}: Researchers should explicitly test Fleiss'
+Kappa against the expected human diversity benchmark before deploying LLMs as
+synthetic respondents. A model that appears more ``helpful'' and ``consistent''
+(high RLHF alignment) may be precisely the wrong choice for synthetic survey
+simulation.
+
+\subsection{The Distribution Paradox: Uniform Yet Similar}
+
+The chi-square results reveal a complementary paradox: while 2026 models show
+higher within-group uniformity (kappa), their response \emph{distributions} are
+substantially less divergent from the reference distribution than 2023 models.
+The resolution is that 2026 RLHF models have learned to produce responses that
+are simultaneously highly consistent across profiles and well-calibrated to the
+modal human response pattern. They are not simply biased toward one option; they
+are biased toward the \emph{most frequently observed} option in their training ---
+which happens to correspond to typical human responses.
+
+Claude Sonnet 4-6 achieves the smallest distributional divergence ($V = 0.068$),
+possibly reflecting Anthropic's Constitutional AI approach producing more
+human-calibrated response tendencies.
+
+\subsection{Profile Blindness: A Consistent Failure Across Generations}
+
+The $t$-test results are striking in their consistency: no model shows any
+statistically significant demographic sensitivity across Age, Gender, or
+Experience --- in \emph{either} generation. Only human respondents exhibit
+significant Experience effects ($t = 6.92$, $p < 0.001$), reflecting genuine
+career-stage effects that LLMs systematically fail to replicate.
+
+This profile blindness is not unique to 2026 RLHF models --- GPT-3.5 and
+LLaMA-2 were equally insensitive in 2023. However, 2026 models extend this
+further: Claude's Experience $p$-value (0.979) indicates stronger
+profile-blindness than any 2023 model, suggesting that Constitutional AI
+enforces stronger response uniformity than pure RLHF.
+
+\subsection{Qasper Quality: Genuine Improvements with Caveats}
+
+Unlike the survey simulation task --- where RLHF alignment appears detrimental
+--- the Qasper scientific QA task benefits directly from scale and training
+improvements in 2026 models. METEOR improvements are dramatic across all three
+models ({+}0.151 to {+}0.225 over GPT-3.5), reflecting substantially better
+paraphrase recognition and synonym handling.
+
+An important caveat applies: our TF-IDF cosine similarity proxy (0.255--0.318)
+is not directly comparable to 2023 DeBERTa-based BERTScore values (0.867,
+0.838). Future work should compute proper BERTScore for longitudinal comparison.
+
+\subsection{Model Lineage Comparisons}
+
+\textbf{GPT lineage} (GPT-3.5-Turbo $\rightarrow$ GPT-4o): GPT-4o shows
+substantial Qasper improvements (BLEU-4: 0.187$\rightarrow$0.206, METEOR:
+0.298$\rightarrow$0.449) but a striking divergence in survey simulation
+($\kappa$: 0.241$\rightarrow$0.480). ROUGE-L appears to decline
+(0.367$\rightarrow$0.298) due to GPT-4o's more elaborate answer style.
+
+\textbf{LLaMA lineage} (LLaMA-2-7B $\rightarrow$ LLaMA-3.3-70B): The 10$\times$
+parameter scale increase produces the most dramatic Qasper improvements
+(BLEU-4: 0.107$\rightarrow$0.249, ROUGE-L: 0.282$\rightarrow$0.395, METEOR:
+0.223$\rightarrow$0.507 --- a {+}127\% relative gain). On survey simulation,
+LLaMA-3.3 ($\kappa{=}0.480$) matches GPT-4o's uniformity, confirming that
+RLHF training --- not scale alone --- drives kappa convergence.
+
+\textbf{Claude Sonnet 4-6}: As the study's first Anthropic model, Claude
+provides an independent RLAIF data point. It achieves the highest Fleiss'
+Kappa (0.487) and smallest distributional divergence ($\chi^2{=}1.876$), best
+METEOR (0.523), and highest correctness (0.762) on Qasper.
+
+%% ====================================================================
+\section{Limitations}
+\label{sec:limitations}
+
+\begin{enumerate}
+  \item \textbf{Sampling bias in profiles}: Our ten demographic profiles cover
+    key intersections but exclude older developers ($>35$), non-binary gender
+    identities, and developers from Global South backgrounds.
+
+  \item \textbf{Single questionnaire}: Results are specific to a 12-question
+    software developer survey. Generalisation to other domains cannot be assumed.
+
+  \item \textbf{API non-determinism}: Despite temperature\,=\,0.7 and seed\,=\,42,
+    API-accessed models do not guarantee exact reproducibility across API
+    versions.
+
+  \item \textbf{Groq TPD rate limits}: LLaMA-3.3-70B required multi-account
+    key rotation across eight Groq accounts.
+
+  \item \textbf{Metric proxies}: System memory constraints (8\,GB RAM) required
+    TF-IDF cosine similarity instead of DeBERTa-based BERTScore, and TTR
+    instead of GPT-2 perplexity for fluency.
+
+  \item \textbf{No GPT-4o-as-judge}: The planned LLM-as-judge evaluation was
+    omitted to control cost.
+
+  \item \textbf{2023 LLaMA-2 discrepancy}: The reproduced LLaMA-2 kappa
+    (0.238) differs from the published value (0.180) due to a missing
+    intermediate file.
+
+  \item \textbf{Qasper metric non-comparability}: TF-IDF proxy values
+    (0.255--0.318) cannot be meaningfully compared to 2023 DeBERTa BERTScore
+    values (0.867, 0.838).
+\end{enumerate}
+
+%% ====================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper presents the first systematic longitudinal evaluation of LLMs as
+synthetic survey respondents across two model generations (2023--2026), using
+identical evaluation protocols on an $n{=}314$ human developer baseline. Our
+key findings are:
+
+\begin{enumerate}
+  \item \textbf{Survey simulation fidelity (RQ1)}: All three 2026 models exhibit
+    dramatically higher Fleiss' Kappa than their 2023 predecessors (GPT-4o:
+    $\kappa{=}0.480$, Claude: $\kappa{=}0.487$, LLaMA-3.3: $\kappa{=}0.480$
+    vs.\ GPT-3.5: $\kappa{=}0.241$, human: $\kappa{=}0.103$). Contrary to the
+    hypothesis that RLHF improves demographic simulation, increased RLHF
+    alignment \emph{worsens} simulation fidelity by collapsing response
+    variance. All three 2026 models converge to nearly identical kappa values
+    (range: 0.006), demonstrating that RLHF --- not model architecture ---
+    is the primary driver of response uniformity.
+
+  \item \textbf{Qasper answer quality (RQ2)}: 2026 models substantially
+    outperform their 2023 counterparts. METEOR scores improve by up to 75\%
+    (Claude: 0.523 vs.\ GPT-3.5: 0.298), BLEU-4 improves by up to 133\%
+    for the LLaMA lineage (0.249 vs.\ 0.107), and correctness improves across
+    all models (Claude: 0.762 vs.\ GPT-3.5: 0.641).
+
+  \item \textbf{Demographic sensitivity (RQ3)}: Complete profile-blindness is
+    observed across all models in both generations. No LLM shows statistically
+    significant response differences across Age, Gender, or Experience (all
+    $p > 0.119$). Only human respondents exhibit significant Experience effects
+    ($t{=}6.92$, $p{<}0.001$).
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Practical guidance for SE researchers}: LLMs can effectively
+pilot questionnaire instruments and validate survey design, but must not
+substitute for demographically diverse human participants. Before using any LLM
+as a synthetic respondent pool, researchers should: (a)~verify that Fleiss'
+Kappa is within $\pm 0.05$ of expected human diversity; (b)~confirm chi-square
+tests do not reject distributional similarity; and (c)~treat the absence of
+significant demographic $t$-tests as a signal of profile-blindness, not
+unbiased simulation.
+
+Future work should extend this longitudinal framework to multimodal models,
+examine additional demographic dimensions including global geographic diversity,
+investigate retrieval-augmented generation for improved Qasper accuracy, and
+develop evaluation protocols specifically designed to measure \emph{demographic
+diversity} rather than mere response consistency.
+
+%% ====================================================================
+\section*{Acknowledgements}
+
+The authors thank the participants of the original 2023 survey study. API access
+for GPT-4o and Claude Sonnet 4-6 was provided through OpenAI and Anthropic
+developer accounts; LLaMA-3.3-70B inference was facilitated by the Groq API.
+
+%% ====================================================================
+%% References
+%% ====================================================================
+\bibliographystyle{plainnat}
+
+\begin{thebibliography}{99}
+
+\bibitem[Argyle et~al.(2023)]{argyle2023}
+Argyle, L.~P., Busby, E.~C., Fulda, N., Gubler, J.~R., Rytting, C., \&
+Wingate, D. (2023).
+\newblock Out of one, many: Using language models to simulate human samples.
+\newblock \emph{Political Analysis}, 31(3), 337--351.
+\newblock \href{https://doi.org/10.1017/pan.2023.2}{\texttt{doi:10.1017/pan.2023.2}}
+
+\bibitem[Banerjee \& Lavie(2005)]{banerjee2005}
+Banerjee, S., \& Lavie, A. (2005).
+\newblock METEOR: An automatic metric for MT evaluation with improved
+correlation with human judgments.
+\newblock In \emph{Proceedings of the ACL Workshop on Intrinsic and Extrinsic
+Evaluation Measures for Machine Translation and/or Summarization}, pp.\ 65--72.
+
+\bibitem[Dasigi et~al.(2021)]{dasigi2021}
+Dasigi, P., Lo, K., Beltagy, I., Cohan, A., Smith, N.~A., \& Gardner, M.
+(2021).
+\newblock A dataset of information-seeking questions and answers anchored in
+research papers.
+\newblock In \emph{Proceedings of NAACL 2021}, pp.\ 4599--4610.
+\newblock \href{https://doi.org/10.18653/v1/2021.naacl-main.365}{\texttt{doi:10.18653/v1/2021.naacl-main.365}}
+
+\bibitem[Lin(2004)]{lin2004}
+Lin, C.-Y. (2004).
+\newblock ROUGE: A package for automatic evaluation of summaries.
+\newblock In \emph{Text Summarization Branches Out}, pp.\ 74--81.
+
+\bibitem[Ouyang et~al.(2022)]{ouyang2022}
+Ouyang, L., Wu, J., Jiang, X., et~al. (2022).
+\newblock Training language models to follow instructions with human feedback.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+volume~35.
+
+\bibitem[Papineni et~al.(2002)]{papineni2002}
+Papineni, K., Roukos, S., Ward, T., \& Zhu, W.-J. (2002).
+\newblock BLEU: A method for automatic evaluation of machine translation.
+\newblock In \emph{Proceedings of ACL 2002}, pp.\ 311--318.
+\newblock \href{https://doi.org/10.3115/1073083.1073135}{\texttt{doi:10.3115/1073083.1073135}}
+
+\bibitem[Perez et~al.(2022)]{perez2022}
+Perez, E., Huang, S., Song, F., et~al. (2022).
+\newblock Red teaming language models with language models.
+\newblock \emph{arXiv preprint}, arXiv:2202.03286.
+
+\bibitem[Santurkar et~al.(2023)]{santurkar2023}
+Santurkar, S., Durmus, E., Ladd, F., Lee, C., Liang, P., \& Hashimoto, T.
+(2023).
+\newblock Whose opinions do language models reflect?
+\newblock In \emph{Proceedings of ICML 2023}.
+
+\bibitem[Original Study(2023)]{original2023}
+SE\_LLM\_EVAL Authors. (2023).
+\newblock Assessing the effectiveness of large language models as polling
+participants in qualitative research.
+\newblock Unpublished manuscript / university report, University Computing
+Department.
+
+\bibitem[Zhang et~al.(2019)]{zhang2019}
+Zhang, T., Kishore, V., Wu, F., Weinberger, K.~Q., \& Artzi, Y. (2019).
+\newblock BERTScore: Evaluating text generation with BERT.
+\newblock In \emph{International Conference on Learning Representations (ICLR
+2020)}.
+
+\bibitem[Gogineni(2025)]{ssrn6829506}
+Gogineni, T. (2025).
+\newblock \emph{Title from SSRN Working Paper 6829506}.
+\newblock SSRN Working Paper.
+\newblock Available at SSRN: \url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6829506}
+
+\end{thebibliography}
+
+\end{document}

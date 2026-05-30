@@ -14,9 +14,10 @@ import time
 import json
 import logging
 from datetime import datetime
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(Path(__file__).parent.parent / ".env", override=False)  # env vars set at process level take precedence
 logger = logging.getLogger(__name__)
 
 # ── Model registry ────────────────────────────────────────────────────────────
@@ -24,16 +25,31 @@ MODELS = {
     # 2026 models
     "gpt-4o":               {"provider": "openai",    "slug": "gpt4o"},
     "claude-sonnet-4-6":    {"provider": "anthropic", "slug": "claude"},
+    "llama-3.3-70b":        {"provider": "groq",      "slug": "llama33"},
+    # Keep old slug alias so any cached references still resolve
     "llama-3.1-70b":        {"provider": "groq",      "slug": "llama31"},
     # 2023 baselines (kept for reference; original notebooks used different SDKs)
     "gpt-3.5-turbo":        {"provider": "openai",    "slug": "gpt35"},
-    "llama-2-7b":           {"provider": "groq",      "slug": "llama2"},   # Groq hosts it
+    "llama-2-7b":           {"provider": "groq",      "slug": "llama2"},
 }
 
 GROQ_MODEL_IDS = {
-    "llama-3.1-70b": "llama-3.1-70b-versatile",
-    "llama-2-7b":    "llama2-70b-4096",
+    "llama-3.3-70b": "llama-3.3-70b-versatile",   # current production model
+    "llama-3.1-70b": "llama-3.3-70b-versatile",   # decommissioned → redirect
+    "llama-2-7b":    "llama-3.3-70b-versatile",   # reference only
 }
+
+
+def _load_groq_backup_keys() -> list[str]:
+    """Return all GROQ_API_KEY_N values (N=2,3,...) from the environment."""
+    keys = []
+    for i in range(2, 20):
+        k = os.environ.get(f"GROQ_API_KEY_{i}", "")
+        if k:
+            keys.append(k)
+        else:
+            break
+    return keys
 
 
 class LLMClient:
@@ -54,6 +70,9 @@ class LLMClient:
         self.max_tokens = max_tokens
         self.provider = MODELS[model]["provider"]
         self.slug = MODELS[model]["slug"]
+        self._groq_keys = ([os.environ.get("GROQ_API_KEY", "")] + _load_groq_backup_keys()
+                           if self.provider == "groq" else [])
+        self._groq_key_idx = 0
         self._client = self._init_client()
 
     # ── Initialisation ────────────────────────────────────────────────────────
@@ -67,8 +86,22 @@ class LLMClient:
             return anthropic.Anthropic()           # reads ANTHROPIC_API_KEY
         if self.provider == "groq":
             from groq import Groq
-            return Groq()                          # reads GROQ_API_KEY
+            key = self._groq_keys[self._groq_key_idx] if self._groq_keys else None
+            return Groq(api_key=key) if key else Groq()
         raise ValueError(f"Unknown provider: {self.provider}")
+
+    def _rotate_groq_key(self) -> bool:
+        """Switch to the next available Groq API key. Returns True if rotated."""
+        if self.provider != "groq":
+            return False
+        next_idx = self._groq_key_idx + 1
+        if next_idx < len(self._groq_keys):
+            self._groq_key_idx = next_idx
+            from groq import Groq
+            self._client = Groq(api_key=self._groq_keys[next_idx])
+            logger.info("Rotated to Groq key #%d.", next_idx + 1)
+            return True
+        return False
 
     # ── Core method ──────────────────────────────────────────────────────────
 
@@ -76,19 +109,42 @@ class LLMClient:
         self,
         system_prompt: str,
         user_prompt: str,
-        retries: int = 3,
+        retries: int = 6,
         backoff: float = 5.0,
     ) -> str:
         """Call the model and return the response text.
 
         Retries up to `retries` times on transient errors (rate limits,
-        timeouts). Raises after all retries are exhausted.
+        timeouts). For daily TPD Groq errors, rotates to the next key
+        immediately. For TPM / other 429s, parses the suggested retry delay.
+        Raises after all retries are exhausted.
         """
+        import re as _re
         for attempt in range(retries):
             try:
                 return self._call(system_prompt, user_prompt)
             except Exception as exc:
-                wait = backoff * (2 ** attempt)
+                exc_str = str(exc)
+                # Daily token quota (TPD) → rotate key immediately, no sleep
+                if "tokens per day" in exc_str and self._rotate_groq_key():
+                    logger.warning(
+                        "Groq TPD limit on key #%d; rotated to key #%d.",
+                        self._groq_key_idx, self._groq_key_idx + 1,
+                    )
+                    continue   # retry immediately with new key
+                # Parse "Please try again in Xs/Xms/Xm" from Groq/OpenAI 429 messages
+                m = _re.search(r"try again in (\d+(?:\.\d+)?)(\w+)", exc_str)
+                if m:
+                    val, unit = float(m.group(1)), m.group(2).lower()
+                    if unit == "ms":
+                        wait = max(val / 1000, 1)   # milliseconds → seconds
+                    elif unit.startswith("m"):
+                        wait = val * 60              # minutes → seconds
+                    else:
+                        wait = val                   # already seconds
+                    wait = max(wait + 5, backoff)    # add 5s buffer
+                else:
+                    wait = backoff * (2 ** attempt)
                 logger.warning(
                     "Attempt %d/%d failed for %s: %s. Retrying in %.0fs.",
                     attempt + 1, retries, self.model, exc, wait,

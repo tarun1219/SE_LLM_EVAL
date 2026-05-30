@@ -8,7 +8,7 @@ saves to Qasper_analysis/responses_{model_slug}_{prompt}.csv.
 
 Run:
     cd /path/to/SE_LLM_EVAL
-    python -m inference.run_qasper --models gpt-4o claude-sonnet-4-6 llama-3.1-70b
+    python -m inference.run_qasper --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
     python -m inference.run_qasper --dry-run
 """
 
@@ -128,14 +128,20 @@ def load_qasper_papers(n: int = N_PAPERS, seed: int = SEED) -> list[dict]:
                 full_text_parts.append(str(para))
         full_text = " ".join(full_text_parts)
 
-        for qa in paper.get("qas", []):
+        # qas is a columnar dict of parallel lists: {question: [...], answers: [...], ...}
+        qas = paper.get("qas", {})
+        questions   = qas.get("question", []) if isinstance(qas, dict) else []
+        answers_col = qas.get("answers",  []) if isinstance(qas, dict) else []
+
+        for question, ans_entry in zip(questions, answers_col):
             answers = []
             evidence_parts = []
-            for ann in qa.get("answers", []):
-                a = ann.get("answer", {})
-                spans = a.get("extractive_spans", [])
-                free  = a.get("free_form_answer", "")
-                evid  = a.get("evidence", [])
+            # ans_entry is a dict with key "answer" → list of per-annotator answer dicts
+            ann_list = ans_entry.get("answer", []) if isinstance(ans_entry, dict) else []
+            for ann in ann_list:
+                spans = ann.get("extractive_spans", [])
+                free  = ann.get("free_form_answer", "")
+                evid  = ann.get("evidence", [])
                 if spans:
                     answers.extend(spans)
                 elif free:
@@ -146,11 +152,11 @@ def load_qasper_papers(n: int = N_PAPERS, seed: int = SEED) -> list[dict]:
                 continue
             evidence = " ".join(evidence_parts)
             papers.append({
-                "paper_id":   paper.get("id", str(idx)),
-                "question":   qa["question"],
+                "paper_id":     paper.get("id", str(idx)),
+                "question":     question,
                 "gold_answers": list(set(answers)),
-                "evidence":   evidence,
-                "full_text":  full_text,
+                "evidence":     evidence,
+                "full_text":    full_text,
             })
     return papers
 
@@ -237,7 +243,7 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="Qasper inference for new models")
     parser.add_argument("--models", nargs="+",
-                        default=["gpt-4o", "claude-sonnet-4-6", "llama-3.1-70b"])
+                        default=["gpt-4o", "claude-sonnet-4-6", "llama-3.3-70b"])
     parser.add_argument("--prompts", nargs="+", type=int, default=[1, 2, 3, 4])
     parser.add_argument("--shots", nargs="+", default=["few"])
     parser.add_argument("--dry-run", action="store_true")

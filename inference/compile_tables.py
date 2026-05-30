@@ -37,7 +37,7 @@ MODEL_DISPLAY = {
     "llama2":   "LLaMA-2-7B",
     "gpt4o":    "GPT-4o",
     "claude":   "Claude Sonnet 4-6",
-    "llama31":  "LLaMA-3.1-70B",
+    "llama31":  "LLaMA-3.3-70B",
 }
 
 YEAR_MAP = {
@@ -118,7 +118,7 @@ def build_table1() -> pd.DataFrame:
             slug = str(row.get("model", "")).replace("-", "").replace(".", "")[:12]
             label = None
             for k, v in {"gpt4o": "GPT-4o", "claudesonnet": "Claude Sonnet 4-6",
-                         "llama3170b": "LLaMA-3.1-70B"}.items():
+                         "llama3170b": "LLaMA-3.3-70B"}.items():
                 if k in slug.lower() or k.replace(".", "") in slug.lower():
                     label = v
                     break
@@ -147,7 +147,7 @@ def build_table1() -> pd.DataFrame:
     else:
         # Placeholder rows so tables are structurally complete
         for label, slug in [("GPT-4o", "gpt4o"), ("Claude Sonnet 4-6", "claude"),
-                             ("LLaMA-3.1-70B", "llama31")]:
+                             ("LLaMA-3.3-70B", "llama31")]:
             rows.append({
                 "model": label, "year": 2026, "prompt_num": "P4", "shot_type": "few",
                 "bleu_1": "PENDING", "bleu_2": "PENDING", "bleu_3": "PENDING",
@@ -201,7 +201,7 @@ def build_table2() -> pd.DataFrame:
             slug = str(row.get("model", "")).replace("-", "").replace(".", "")[:12]
             label = None
             for k, v in {"gpt4o": "GPT-4o", "claudesonnet": "Claude Sonnet 4-6",
-                         "llama3170b": "LLaMA-3.1-70B"}.items():
+                         "llama3170b": "LLaMA-3.3-70B"}.items():
                 if k in slug.lower():
                     label = v
             if label is None:
@@ -225,7 +225,7 @@ def build_table2() -> pd.DataFrame:
                 "source": "computed_2026",
             })
     else:
-        for label in ["GPT-4o", "Claude Sonnet 4-6", "LLaMA-3.1-70B"]:
+        for label in ["GPT-4o", "Claude Sonnet 4-6", "LLaMA-3.3-70B"]:
             rows.append({
                 "model": label, "year": 2026, "prompt_num": "P4", "shot_type": "few",
                 "qa_relevance": "PENDING", "ca_relevance": "PENDING",
@@ -323,7 +323,7 @@ def build_table3() -> pd.DataFrame:
 
         for slug, display in [("gpt4o", "GPT-4o"),
                                ("claude", "Claude Sonnet 4-6"),
-                               ("llama31", "LLaMA-3.1-70B")]:
+                               ("llama31", "LLaMA-3.3-70B")]:
             if slug not in kappa_26 and slug not in ttest_26:
                 # Insert placeholder
                 rows.append({
@@ -363,7 +363,7 @@ def build_table3() -> pd.DataFrame:
                 "source": "computed_2026",
             })
     else:
-        for display in ["GPT-4o", "Claude Sonnet 4-6", "LLaMA-3.1-70B"]:
+        for display in ["GPT-4o", "Claude Sonnet 4-6", "LLaMA-3.3-70B"]:
             rows.append({
                 "model": display, "year": 2026,
                 "fleiss_kappa": "PENDING", "chi2": "PENDING",
@@ -385,7 +385,7 @@ def build_table4(t1: pd.DataFrame, t2: pd.DataFrame, t3: pd.DataFrame) -> pd.Dat
     """Side-by-side comparison: old vs new per lineage, per metric."""
     comparisons = [
         ("GPT-3.5-Turbo", 2023, "GPT-4o", 2026, "GPT lineage"),
-        ("LLaMA-2-7B",    2023, "LLaMA-3.1-70B", 2026, "LLaMA lineage"),
+        ("LLaMA-2-7B",    2023, "LLaMA-3.3-70B", 2026, "LLaMA lineage"),
     ]
 
     rows = []
@@ -539,7 +539,7 @@ def build_summary(t1: pd.DataFrame, t2: pd.DataFrame,
         return "⏳ PENDING"
 
     gpt_bias_verdict   = _bias_verdict("GPT-3.5-Turbo", "GPT-4o")
-    llama_bias_verdict = _bias_verdict("LLaMA-2-7B", "LLaMA-3.1-70B")
+    llama_bias_verdict = _bias_verdict("LLaMA-2-7B", "LLaMA-3.3-70B")
 
     # Qasper auto-metric improvements (t4 rows, check if PENDING)
     def _metric_line(row_idx, metric_delta_col, metric_name, higher_better=True):
@@ -589,7 +589,7 @@ Generated: {__import__('datetime').datetime.now().isoformat()}
 | LLaMA-2-7B         | 2023 | {llama2_k:.5f} | — |
 | GPT-4o             | 2026 | {gpt4o_k if gpt4o_k != "PENDING" else "⏳ PENDING"} | {gpt_kappa_verdict} |
 | Claude Sonnet 4-6  | 2026 | {claude_k if claude_k != "PENDING" else "⏳ PENDING"} | — |
-| LLaMA-3.1-70B      | 2026 | {llama31_k if llama31_k != "PENDING" else "⏳ PENDING"} | {llama_kappa_verdict} |
+| LLaMA-3.3-70B      | 2026 | {llama31_k if llama31_k != "PENDING" else "⏳ PENDING"} | {llama_kappa_verdict} |
 
 ---
 
@@ -598,7 +598,7 @@ Generated: {__import__('datetime').datetime.now().isoformat()}
 **GPT lineage (GPT-3.5-Turbo → GPT-4o):**
 {gpt_lines}
 
-**LLaMA lineage (LLaMA-2-7B → LLaMA-3.1-70B):**
+**LLaMA lineage (LLaMA-2-7B → LLaMA-3.3-70B):**
 {llama_lines}
 
 ---
