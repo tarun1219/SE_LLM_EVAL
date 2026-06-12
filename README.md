@@ -1,8 +1,10 @@
-# SE_LLM_EVAL — LLMs as Synthetic Survey Respondents
+# SE_LLM_EVAL — The Kappa Paradox
 
-> **A longitudinal study evaluating whether Large Language Models can simulate human survey participants in software engineering qualitative research.**
+> **Modern RLHF-aligned LLMs improve distributional similarity to human survey responses but collapse demographic response diversity — a longitudinal study across two model generations (2023 → 2026).**
 
-This repository contains the full code, data, and paper for a **two-generation comparison** (2023 → 2026) of LLMs acting as synthetic respondents to a 12-question software developer survey, plus a Qasper scientific QA evaluation.
+This repository contains the full code, archived model outputs, and paper for a **two-generation comparison** of LLMs as synthetic SE survey respondents. All paper results reproduce from archived CSVs — no API keys required.
+
+> 📄 **Paper:** `paper/paper_msr2027.pdf` (MSR 2027 target, ACM sigconf)
 
 ---
 
@@ -12,7 +14,7 @@ Can LLMs stand in for human participants in qualitative SE research? Specificall
 
 | Research Question | Short Answer |
 |---|---|
-| **RQ1** — Do 2026 models simulate human survey responses better than 2023 models? | ❌ Worse. RLHF collapses response variance (Kappa Paradox). |
+| **RQ1** — Do 2026 models simulate human survey responses better than 2023 models? | ❌ Worse. Alignment training is associated with collapse of response variance (Kappa Paradox). |
 | **RQ2** — Do 2026 models produce better Qasper scientific QA answers? | ✅ Yes. METEOR improves by up to 75%. |
 | **RQ3** — Did RLHF reduce demographic sensitivity? | ⚠️ Already absent in 2023. 2026 models show even stronger profile-blindness. |
 
@@ -93,6 +95,57 @@ SE_LLM_EVAL/
 
 ---
 
+## Reproducing All Results (No API Keys Required)
+
+All tables and figures in the paper are reproducible from **archived model
+response files** already committed to this repository. No model API calls are
+needed.
+
+```bash
+pip install -r requirements.txt
+
+# Step 1 — Statistical analysis (Fleiss κ, chi-square, t-tests, ANOVA)
+#           Reads from: Datasets/, LLM_Responses/
+python -m inference.run_statistics
+
+# Step 2 — Qasper automatic + stylistic metrics (pure Python, no GPU)
+#           Reads from: Qasper_analysis/responses/
+python run_metrics_pure.py
+
+# Step 3 — Compile result tables (CSV → paper-ready tables)
+python -m inference.compile_tables
+
+# Step 4 — Generate all figures
+python -m visualization.generate_figures
+```
+
+> All analyses are based on the archived model outputs in `LLM_Responses/`
+> and `Qasper_analysis/responses/`. To avoid confounding model drift and
+> API version changes, outputs are not regenerated after the initial
+> collection window.
+
+---
+
+## Optional: Regenerate Model Outputs (Requires API Keys)
+
+Only needed if you want to re-run inference from scratch. Costs ~$13 total.
+
+```bash
+cp .env.example .env
+# Edit .env:
+#   OPENAI_API_KEY=sk-...
+#   ANTHROPIC_API_KEY=sk-ant-...
+#   GROQ_API_KEY=gsk_...
+
+# Questionnaire inference (10 profiles × 12 questions × 5 prompts)
+python -m inference.run_questionnaire --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
+
+# Qasper QA inference (50 papers, 4 prompts, few-shot)
+python -m inference.run_qasper --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
+```
+
+---
+
 ## Quick Start
 
 ### 1. Install Dependencies
@@ -102,41 +155,9 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm   # optional, for NER metrics
 ```
 
-### 2. Set API Keys
+### 2. View the Paper
 
-```bash
-cp .env.example .env
-# Edit .env with your keys:
-#   OPENAI_API_KEY=sk-...
-#   ANTHROPIC_API_KEY=sk-ant-...
-#   GROQ_API_KEY=gsk_...
-```
-
-### 3. Run the Full Pipeline
-
-```bash
-# Questionnaire inference (10 profiles × 12 questions × 5 prompts)
-python -m inference.run_questionnaire --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
-
-# Qasper QA inference (50 papers, 4 prompts, few-shot)
-python -m inference.run_qasper --models gpt-4o claude-sonnet-4-6 llama-3.3-70b
-
-# Compute Qasper metrics (pure Python, no GPU needed)
-python run_metrics_pure.py
-
-# Statistical analysis (kappa, chi-square, t-tests, ANOVA)
-python -m inference.run_statistics
-
-# Compile result tables
-python -m inference.compile_tables
-
-# Generate all 5 figures
-python -m visualization.generate_figures
-```
-
-### 4. View the Paper
-
-Open `paper/paper.pdf` — it contains all results, tables, and discussion.
+Open `paper/paper_msr2027.pdf` — the full MSR 2027 submission with all results, tables, and discussion.
 
 ---
 

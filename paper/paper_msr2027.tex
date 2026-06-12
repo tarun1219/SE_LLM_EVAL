@@ -1,6 +1,6 @@
 %%
-%% LLMs as Synthetic Survey Respondents: A Longitudinal Evaluation
-%% Across Two Model Generations (2023–2026)
+%% The Kappa Paradox: RLHF-Aligned LLMs Improve Distributional Similarity
+%% but Collapse Demographic Response Diversity in SE Survey Simulation
 %% Target: MSR 2027 — Full Research Paper
 %%
 \documentclass[sigconf,nonacm]{acmart}
@@ -25,8 +25,8 @@
 \newcommand{\pval}[1]{$p{=}#1$}
 
 %% ---- ACM metadata -----------------------------------------------
-\title{LLMs as Synthetic Survey Respondents: A Longitudinal Evaluation\\
-       Across Two Model Generations (2023--2026)}
+\title{The Kappa Paradox: RLHF-Aligned LLMs Improve Distributional Similarity\\
+       but Collapse Demographic Response Diversity in SE Survey Simulation}
 
 \author{Tarun Tiwari}
 \affiliation{%
@@ -70,29 +70,32 @@ for LLaMA-2), yet this increased consistency represents \emph{worse}
 simulation fidelity relative to the human baseline (\kval{0.103}).
 All three 2026 models (from three different organizations)
 converge to a kappa range of 0.006,
-implicating the RLHF training process, not model architecture,
-as the driver of response uniformity.
+a pattern consistent with the alignment training paradigm---not model
+architecture---as the primary driver of response uniformity.
 
 A complementary \emph{Distribution Paradox} emerges: these same uniform
 2026 models are \emph{more} similar to human modal response distributions
 than their 2023 counterparts (Claude: $\chi^2{=}1.876$, $p{=}0.759$ vs.\
-LLaMA-2: $\chi^2{=}18.749$, $p{<}0.001$), resolved by recognizing that
-RLHF trains toward the most frequently observed human response.
+LLaMA-2: $\chi^2{=}18.749$, $p{<}0.001$), explained by alignment training
+optimizing toward the most frequently observed human response.
 Complete \emph{profile blindness} is observed across both generations:
 no model shows statistically significant response differences across Age,
 Gender, or Experience---a failure absent only in human respondents
 ($t{=}6.92$, $p{<}0.001$ for Experience).
-On the Qasper scientific QA benchmark, genuine quality improvements
-are observed for 2026 models: METEOR improves by up to 75\%
-(Claude: 0.523 vs.\ GPT-3.5: 0.298) and BLEU-4 by up to 133\% across
-the LLaMA lineage.
+As a secondary sanity-check, we include a Qasper scientific QA evaluation
+showing that 2026 models \emph{do} improve on conventional QA metrics
+(METEOR $+$75\% for Claude, BLEU-4 $+$133\% across the LLaMA lineage),
+confirming that the survey-simulation degradation is task-specific and
+not a general capability regression.
+All analyses are computed from archived model response files; no
+additional inference is required to reproduce the reported results.
 We provide a concrete, evidence-based checklist for SE researchers
 considering LLMs as synthetic respondents.
 \end{abstract}
 
 \keywords{large language models, synthetic survey respondents, RLHF
-alignment, Fleiss' Kappa, longitudinal study, Qasper, software engineering,
-qualitative research}
+alignment, Kappa Paradox, Fleiss' Kappa, longitudinal study, archived-output
+reanalysis, software engineering, qualitative research}
 
 \maketitle
 
@@ -130,9 +133,9 @@ survey simulation task.
 All three 2026 models cluster at \kval{0.480}--\kval{0.487}, nearly twice
 the kappa of their 2023 predecessors and dramatically further from the
 target human diversity (\kval{0.103}).
-We term this the \kp: RLHF alignment, by training models toward the modal
-human response, collapses the response variance that authentic demographic
-simulation requires.
+We term this the \kp: alignment training, by optimizing toward modal human
+approval, is associated with a collapse in the response variance that
+authentic demographic simulation requires.
 Simultaneously---and paradoxically---2026 models \emph{match} human
 response distributions more closely than their predecessors (all $p{>}0.25$
 for chi-square), because the modal human response is also the most probable
@@ -140,14 +143,23 @@ one.
 The resolution of this apparent contradiction is the paper's central
 theoretical contribution.
 
+\textbf{Archival reanalysis.}
+To avoid confounding model drift and API version changes, we do not
+regenerate model outputs after the initial collection window.
+All reported analyses are computed from archived response files
+released with the artifact; no additional inference is required to
+reproduce any table or figure in this paper.
+
 We address three research questions:
 \begin{description}[leftmargin=1.2em,itemsep=0pt]
 \item[\textbf{RQ1}] Do 2026 LLMs simulate human survey respondents more
   accurately, as measured by Fleiss' Kappa proximity to the human baseline
   and chi-square distributional similarity?
-\item[\textbf{RQ2}] Do 2026 models produce higher-quality scientific answers
-  on Qasper, as measured by automatic metrics (BLEU, ROUGE, METEOR) and
-  stylistic metrics?
+\item[\textbf{RQ2}] \emph{(Sanity check)} Do 2026 models produce
+  higher-quality scientific answers on the Qasper benchmark, as measured
+  by automatic metrics (BLEU, ROUGE, METEOR) and stylistic metrics---and
+  does this improvement confirm that survey-simulation degradation is
+  task-specific rather than a general capability regression?
 \item[\textbf{RQ3}] Does RLHF alignment reduce demographic sensitivity in
   LLM survey responses, as measured by $t$-test significance across Age,
   Gender, and Experience?
@@ -155,21 +167,21 @@ We address three research questions:
 
 \noindent\textbf{Contributions.} This paper makes four contributions:
 \begin{enumerate}[leftmargin=1.4em,itemsep=0pt]
-\item The first complete longitudinal comparison of LLM survey simulation
-  capability across two model generations using identical evaluation
-  protocols on the same human baseline.
-\item A Chain-of-Thought prompt variant (P5) evaluated on both survey
-  simulation and Qasper tasks, extending the four-prompt framework
-  from Phase~1.
-\item A comprehensive Qasper evaluation across all five models using
-  automatic metrics (BLEU-1/2/3/4, ROUGE-1/2/L, METEOR) plus five
-  stylistic metrics (relevance, fluency, formality, readability, correctness).
-\item An open-source release at \url{https://github.com/tarun1219/SE\_LLM\_EVAL}
-  containing: the complete inference pipeline for all five models and five
-  prompt variants; all raw model responses (600 survey responses per Phase~2
-  model, 124 Qasper QA pairs per model); Fleiss' Kappa, chi-square, $t$-test,
-  and ANOVA analysis scripts; and a reproducibility README with environment
-  specifications and API version pinning.
+\item The \kp finding: modern RLHF-aligned LLMs achieve \emph{worse}
+  demographic survey simulation fidelity than their 2023 predecessors,
+  despite improving on conventional QA benchmarks---the first demonstration
+  of this task-specific inversion across two full model generations.
+\item A Chain-of-Thought prompt variant (P5) showing that structured
+  demographic reasoning does not recover response diversity,
+  further supporting the alignment-attractor-state hypothesis.
+\item A secondary Qasper sanity-check evaluation across all five models
+  confirming that the survey-simulation degradation is task-specific:
+  2026 models improve on BLEU, ROUGE, METEOR, and correctness even as they
+  worsen as synthetic respondents.
+\item An archival open-source release at
+  \url{https://github.com/tarun1219/SE\_LLM\_EVAL}
+  enabling full reproduction of all tables and figures from archived response
+  files without re-querying any model API.
 \end{enumerate}
 
 %% =================================================================
@@ -371,9 +383,13 @@ All Phase~2 models use temperature\,=\,0.7 and seed\,=\,42.
 LLaMA-3.3-70B inference was served via the Groq API with automatic rate-limit
 rotation across eight accounts.
 
-\subsection{Qasper Evaluation}
+\subsection{Qasper Evaluation (Secondary Sanity-Check Task)}
 \label{sec:method:qasper}
 
+Qasper is included as a secondary sanity-check task: if 2026 models also
+degrade on a conventional QA benchmark, the survey-simulation finding could
+be explained by general capability regression rather than task-specific
+alignment effects.
 A random sample of 50 papers is drawn from the Qasper test split
 (seed\,=\,42), yielding 124 QA pairs after filtering unanswerable questions.
 Each model--prompt combination is allocated a maximum of 256 output tokens.
@@ -536,15 +552,17 @@ of Phase~1 models, yet this represents \emph{worse} simulation---a larger
 deviation from the human baseline target.
 The span of Phase~2 kappa values is only 0.006 (range: 0.4799--0.4865),
 despite the three models coming from OpenAI, Anthropic, and Meta.
-This tight convergence provides strong evidence that the RLHF training
-process---not model architecture or training data composition---drives the
-observed uniformity.
-RLHF rewards the most broadly approved response to any given question;
-for professional survey questions about developer practices, this is
-consistently the ``best practice'' answer (e.g., use version control,
-prefer typed languages, communicate proactively), causing all RLHF-aligned
-models to converge on the same handful of choices regardless of the
-demographic profile presented.
+This tight convergence is consistent with the alignment training
+process---not model architecture or training data composition---as the
+primary driver of observed uniformity.
+Alignment training optimizes toward the most broadly approved response to
+any given question; for professional survey questions about developer
+practices, this is consistently the ``best practice'' answer (e.g., use
+version control, prefer typed languages, communicate proactively).
+The observed result is that all three models converge on the same handful
+of choices regardless of the demographic profile presented---a pattern
+consistent with, though not causally proven to be a direct consequence of,
+RLHF-style reward optimization.
 
 \subsection{RQ1 --- Chi-Square Distributional Similarity}
 \label{sec:results:chisq}
@@ -575,9 +593,10 @@ The \distrpar emerges here.
 Phase~2 models are simultaneously \emph{more uniform} (higher $\kappa$ from
 Table~\ref{tab:kappa}) and \emph{more similar to the reference human
 distribution} (lower $\chi^2$, higher $p$) than Phase~1 models.
-This apparent contradiction resolves when one recognizes that RLHF trains
-models toward the single most-approved response for each question, which
-also happens to be the most frequently observed human response.
+This apparent contradiction resolves when one recognizes that alignment
+training optimizes toward the single most-approved response for each
+question, which also happens to be the most frequently observed human
+response.
 The result is models that are internally consistent (same answer across
 all demographic profiles) and externally well-calibrated (that same answer
 is the modal human answer)---but that \emph{cannot} reproduce the
@@ -625,8 +644,9 @@ $<$1\,yr experience ($t{=}6.92$, $p{<}0.001$).
 Phase~2 models are, if anything, \emph{more} profile-blind than Phase~1:
 GPT-4o's Experience $p$-value (0.870) exceeds GPT-3.5's (0.341),
 and Claude's Experience $p{=}0.979$ is the highest in the entire table.
-Constitutional AI and extensive RLHF tuning appear to enforce stronger
-persona-uniformity than the lighter alignment of Phase~1 models.
+This is consistent with Constitutional AI and extensive RLHF tuning
+being associated with stronger persona-uniformity than the lighter
+alignment of Phase~1 models.
 Crucially, this finding holds at an $N$ where medium-to-large demographic
 effects ($d \geq 0.5$) would be reliably detected (see \S\ref{sec:method:stats}).
 
@@ -799,16 +819,16 @@ Explicitly instructing a model to ground its reasoning in a demographic
 profile does not produce meaningfully different response distributions
 across profiles.
 
-This is consistent with the RLHF mechanism identified in \S\ref{sec:disc:kappa}:
-if the training objective has already converged the model's output distribution
-toward the modal human response, post-hoc CoT reasoning over a demographic
-profile cannot override that convergence.
-The model reasons its way to the same answer regardless of whose perspective
-it is asked to adopt.
+This is consistent with the alignment-driven convergence pattern identified
+in \S\ref{sec:disc:kappa}: if the training objective has oriented the model's
+output distribution toward the modal human response, post-hoc CoT reasoning
+over a demographic profile may be insufficient to override that orientation.
+The model appears to reason its way to the same answer regardless of whose
+perspective it is asked to adopt.
 CoT is effective at improving factual accuracy and logical coherence, but it
-operates downstream of the RLHF-induced attractor state: the model's
-reasoning chain may acknowledge demographic context while its final answer
-selection remains anchored to the mode of the training distribution.
+may operate downstream of what we term an \emph{RLHF-induced attractor state}:
+the model's reasoning chain acknowledges demographic context while its final
+answer selection remains anchored near the mode of the training distribution.
 We term this an RLHF-induced attractor state---a hypothesis consistent with
 Perez et~al.'s~\cite{perez2022} findings on reduced response variance under
 alignment, though direct empirical verification would require
@@ -830,7 +850,9 @@ Instead, Phase~2 models are further away by every Fleiss' Kappa measure:
 $\Delta \kappa_{\text{human}} = +0.377$ to $+0.384$ for Phase~2 vs.\
 $+0.135$ to $+0.139$ for Phase~1.
 
-The mechanism is RLHF's optimization objective.
+The observed pattern is consistent with alignment-driven response
+homogenization, though direct causal attribution would require
+controlled model ablations beyond the scope of this study.
 Human raters reward responses that are professionally appropriate,
 widely applicable, and socially acceptable.
 For a 12-question developer survey, the ``best'' answer to ``What is your
@@ -838,17 +860,19 @@ biggest challenge?'' is almost always something like ``Keeping up with
 rapidly changing technology''---not because it is the most demographically
 authentic answer, but because it is the most likely to satisfy a general
 human evaluator.
-An RLHF-trained model, regardless of the demographic profile it is asked to
-inhabit, converges on this response because doing otherwise would have been
-penalized during training.
+An alignment-trained model may converge on this response regardless of the
+demographic profile it is asked to inhabit, because optimizing for broad
+approval penalizes persona-specific deviation.
 
 The convergence of three models from \emph{three different organizations}
-to $\kappa \in [0.480, 0.487]$ (span\,=\,0.006) is the strongest evidence
-for this mechanism.
+to $\kappa \in [0.480, 0.487]$ (span\,=\,0.006) is the strongest available
+evidence for this interpretation.
 GPT-4o, Claude Sonnet~4-6, and LLaMA-3.3-70B share neither architecture,
-training data, nor fine-tuning methodology---except the RLHF paradigm itself.
-Model architecture cannot explain a convergence this tight; only the shared
-training objective can.
+training data, nor fine-tuning methodology---except the RLHF alignment
+paradigm itself.
+Model architecture alone cannot plausibly explain a convergence this tight;
+the shared training objective is the most parsimonious explanation,
+though we cannot rule out other shared factors in the training pipelines.
 
 Notably, the LLaMA lineage (7B $\rightarrow$ 70B, a 10$\times$ parameter
 increase) shows no kappa improvement ($\Delta\kappa = +0.242$), confirming
@@ -871,7 +895,7 @@ distribution (low $\chi^2$)?
 The resolution is that the single answer Phase~2 models converge on is the
 \emph{modal human answer}---the response chosen by a plurality of the 314
 human respondents.
-RLHF training essentially distills the ``average approved human response''
+Alignment training appears to distill the ``average approved human response''
 into the model's output distribution.
 For a survey population of working developers, this modal response happens
 to be the professionally expected one, and it also happens to be the
@@ -885,9 +909,9 @@ man with 5 years of experience.
 
 Claude's smallest divergence ($V{=}0.068$) and highest kappa ($\kappa{=}0.4865$)
 jointly exemplify this paradox most sharply:
-Constitutional AI may be particularly effective at learning the modal human
-response while simultaneously reducing the variance needed for authentic
-demographic simulation.
+Constitutional AI may be associated with particularly strong regression
+toward the modal human response, while simultaneously reducing the variance
+needed for authentic demographic simulation.
 
 \subsection{Profile Blindness: A Persistent Cross-Generation Failure}
 \label{sec:disc:blindness}
@@ -913,25 +937,32 @@ The two outcomes (successful parity, profile blindness) are statistically
 indistinguishable by $t$-test alone and must be triangulated with $\kappa$
 and distributional analysis.
 
-\subsection{Qasper: Genuine Capability Improvements}
+\subsection{Qasper: Sanity Check Confirms Task-Specific Degradation}
 \label{sec:disc:qasper}
 
-Unlike the survey simulation task---where RLHF appears systematically
-detrimental---the Qasper scientific QA benchmark benefits from Phase~2 scale
-and alignment.
-METEOR improvements are dramatic and consistent:
+The Qasper results serve a specific role: they confirm that the survey
+simulation degradation is \emph{task-specific}, not a general capability
+regression in 2026 models.
+Unlike the survey simulation task---where alignment-driven response
+homogenization is harmful---the Qasper benchmark benefits from Phase~2
+scale and capability improvements.
+METEOR improvements are consistent and substantial:
 $+51\%$ for GPT-4o (0.449 vs.\ 0.298),
 $+75\%$ for Claude (0.523 vs.\ 0.298),
 and $+127\%$ for the LLaMA lineage (0.507 vs.\ 0.223).
-These are improvements in a task where ``giving the most broadly approved
-response'' aligns with factual accuracy---unlike demographic survey
-simulation, where it actively undermines authentic persona rendering.
+On a task where giving the ``most broadly approved'' response aligns with
+factual accuracy, RLHF-style training is beneficial rather than harmful.
+This contrast strengthens the central argument: the survey simulation
+failure is not about model capability in general---it is about the
+mismatch between alignment training objectives and demographic diversity
+requirements.
 
-Two caveats apply.
+Two metric-comparability caveats apply.
 First, the TF-IDF proxy values (0.255--0.318) cannot be compared to
-Phase~1 DeBERTa BERTScore values; any comparison would be misleading.
-Second, the stylistic metrics cross-phase comparison is similarly invalid
-(different underlying methods), and only within-Phase~2 rankings
+Phase~1 DeBERTa BERTScore values; any cross-phase comparison would be
+misleading.
+Second, the stylistic metric cross-phase comparison is invalid
+(different underlying methods); only within-Phase~2 rankings
 should be interpreted.
 
 \subsection{Practical Guidance for SE Researchers}
@@ -1015,6 +1046,18 @@ A planned GPT-4o-as-judge evaluation on 100 randomly sampled Qasper pairs
 was omitted due to cost constraints. Stylistic metric ratings rely solely
 on reference-based automatic scorers.
 
+\textbf{L9 --- Archival reanalysis and causal attribution.}
+To avoid confounding from model drift across API versions, all analyses
+are computed from archived response files collected during the initial
+inference window; no outputs are regenerated.
+This is a deliberate methodological choice that strengthens reproducibility
+but limits causal inference: we cannot directly attribute the observed
+kappa increase to RLHF without controlled ablations (e.g., comparing
+base models to their RLHF-finetuned counterparts under identical prompting).
+Phrases such as ``consistent with RLHF-induced convergence'' throughout
+this paper should be read as observational interpretations, not as
+confirmed causal mechanisms.
+
 %% =================================================================
 \section{Conclusion}
 \label{sec:conclusion}
@@ -1026,13 +1069,14 @@ survey respondents, comparing Phase~1 models (GPT-3.5-Turbo, LLaMA-2-7B,
 2026) on an identical protocol against a $n{=}314$ human developer baseline.
 
 \textbf{RQ1 (survey simulation fidelity).}
-RLHF-aligned 2026 models converge to $\kappa \in [0.480, 0.487]$---nearly
+2026 alignment-trained models converge to $\kappa \in [0.480, 0.487]$---nearly
 twice the Phase~1 values and four times the human baseline.
-The \kp is confirmed: higher alignment worsens demographic simulation.
+The \kp is observed: higher alignment is associated with worse demographic
+simulation fidelity.
 The complementary \distrpar shows these same models match human response
-distributions more closely ($\chi^2 < 5.3$, $p > 0.25$), because RLHF
-learns the modal human response, not the distributional diversity of human
-responses.
+distributions more closely ($\chi^2 < 5.3$, $p > 0.25$), consistent with
+alignment training learning the modal human response rather than the
+distributional diversity of human responses.
 
 \textbf{RQ2 (Qasper quality).}
 Genuine capability improvements are observed across all three Phase~2 models,
@@ -1046,8 +1090,8 @@ Complete \pb holds across both generations.
 No model from either phase shows any significant demographic sensitivity
 across Age, Gender, or Experience.
 Phase~2 models show even higher Experience $p$-values than Phase~1,
-suggesting that Constitutional AI and extended RLHF tuning strengthen,
-rather than ameliorate, profile blindness.
+consistent with Constitutional AI and extended RLHF tuning being
+associated with stronger, not weaker, profile blindness.
 
 Future work should extend this longitudinal framework along four axes:
 (1)~multimodal models and voice-based survey interfaces, where demographic
