@@ -1,0 +1,109 @@
+model,question,n_responses,n_distinct_options,entropy_bits,entropy_norm,max_entropy_bits
+Human, How do you learn to code?,46,11,2.496,0.7215,3.4594
+Human,A company uses an AI system to monitor its employees' productivity. The AI sugge,46,3,1.034,0.6524,1.585
+Human,How do you balance between innovation and meeting project deadlines?,46,4,1.599,0.7995,2.0
+Human,How do you communicate effectively with teammates to collaborate while adhering ,46,4,1.8535,0.9267,2.0
+Human,How do you ensure that you stay up-to-date with industry changes as a software d,45,10,2.7146,0.8172,3.3219
+Human,"In a professional setting, if your team is supposed to deliver a SaaS product wi",46,5,1.3951,0.6008,2.3219
+Human,Software development contributes to societal challenges by:,46,10,2.7499,0.8278,3.3219
+Human,What is the biggest challenge you face as a developer?,46,4,1.9258,0.9629,2.0
+Human,What is you preferred development environment?,46,4,1.1647,0.5823,2.0
+Human,"When choosing a programming language for a new project, you prioritize:",46,4,1.8473,0.9236,2.0
+Human,You discover a critical bug right before a software release. What immediate acti,46,4,1.877,0.9385,2.0
+Human,You're assigned to a project that requires expertise in a programming language y,46,4,1.6215,0.8107,2.0
+GPT-3.5-Turbo," In a professional setting, if your team is supposed to deliver a SaaS product w",108,2,0.7806,0.7806,1.0
+GPT-3.5-Turbo,A company uses an AI system to monitor its employees' productivity. The AI sugge,108,2,0.0758,0.0758,1.0
+GPT-3.5-Turbo,How do you balance between innovation and meeting project deadlines?,108,2,0.0758,0.0758,1.0
+GPT-3.5-Turbo,How do you communicate effectively with teammates to collaborate while adhering ,108,4,0.5304,0.2652,2.0
+GPT-3.5-Turbo,How do you ensure that you stay up-to-date with industry changes as a software d,111,6,0.4805,0.1859,2.585
+GPT-3.5-Turbo,How do you learn to code? Please select all that apply.,108,4,0.2271,0.1136,2.0
+GPT-3.5-Turbo,Software development contributes to societal challenges by:. Please select all t,133,6,1.2185,0.4714,2.585
+GPT-3.5-Turbo,What is the biggest challenge you face as a developer?,108,2,0.0758,0.0758,1.0
+GPT-3.5-Turbo,What is your preferred development environment?,108,4,1.5275,0.7638,2.0
+GPT-3.5-Turbo,When choosing a programming language for a new project you prioritize:,108,3,0.4558,0.2875,1.585
+GPT-3.5-Turbo,You discover a critical bug right before a software release. What immediate acti,107,1,0.0,0.0,0.0
+GPT-3.5-Turbo,You're assigned to a project that requires expertise in a programming language y,108,3,0.8197,0.5172,1.585
+LLaMA-2-7B," In a professional setting, if your team is supposed to deliver a SaaS product w",10,4,1.571,0.7855,2.0
+LLaMA-2-7B,A company uses an AI system to monitor its employees' productivity. The AI sugge,10,3,1.2955,0.8173,1.585
+LLaMA-2-7B,How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+LLaMA-2-7B,How do you communicate effectively with teammates to collaborate while adhering ,10,3,1.2955,0.8173,1.585
+LLaMA-2-7B,How do you ensure that you stay up-to-date with industry changes as a software d,10,4,1.8464,0.9232,2.0
+LLaMA-2-7B,How do you learn to code? Please select all that apply.,10,3,1.1568,0.7298,1.585
+LLaMA-2-7B,Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+LLaMA-2-7B,What is the biggest challenge you face as a developer?,10,2,0.7219,0.7219,1.0
+LLaMA-2-7B,What is your preferred development environment?,10,2,0.8813,0.8813,1.0
+LLaMA-2-7B,When choosing a programming language for a new project you prioritize:,10,2,0.469,0.469,1.0
+LLaMA-2-7B,You discover a critical bug right before a software release. What immediate acti,10,1,0.0,0.0,0.0
+LLaMA-2-7B,You're assigned to a project that requires expertise in a programming language y,10,2,0.7219,0.7219,1.0
+GPT-4o,A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+GPT-4o,How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+GPT-4o,How do you communicate effectively with teammates to collaborate while adhering ,10,1,0.0,0.0,0.0
+GPT-4o,How do you ensure that you stay up-to-date with industry changes as a software d,10,2,0.469,0.469,1.0
+GPT-4o,How do you learn to code? Please select all that apply.,10,1,0.0,0.0,0.0
+GPT-4o,"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,2,0.469,0.469,1.0
+GPT-4o,Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+GPT-4o,What is the biggest challenge you face as a developer?,10,2,0.469,0.469,1.0
+GPT-4o,What is your preferred development environment?,10,2,0.8813,0.8813,1.0
+GPT-4o,When choosing a programming language for a new project you prioritize:,10,4,1.761,0.8805,2.0
+GPT-4o,You discover a critical bug right before a software release. What immediate acti,10,2,0.8813,0.8813,1.0
+GPT-4o,You're assigned to a project that requires expertise in a programming language y,10,2,0.469,0.469,1.0
+Claude 4-6,A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+Claude 4-6,How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+Claude 4-6,How do you communicate effectively with teammates to collaborate while adhering ,10,2,0.8813,0.8813,1.0
+Claude 4-6,How do you ensure that you stay up-to-date with industry changes as a software d,10,3,1.4855,0.9372,1.585
+Claude 4-6,How do you learn to code? Please select all that apply.,10,1,0.0,0.0,0.0
+Claude 4-6,"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,2,0.8813,0.8813,1.0
+Claude 4-6,Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+Claude 4-6,What is the biggest challenge you face as a developer?,10,2,0.7219,0.7219,1.0
+Claude 4-6,What is your preferred development environment?,10,2,0.7219,0.7219,1.0
+Claude 4-6,When choosing a programming language for a new project you prioritize:,10,1,0.0,0.0,0.0
+Claude 4-6,You discover a critical bug right before a software release. What immediate acti,10,2,0.8813,0.8813,1.0
+Claude 4-6,You're assigned to a project that requires expertise in a programming language y,10,2,0.469,0.469,1.0
+LLaMA-3.3-70B,A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,How do you communicate effectively with teammates to collaborate while adhering ,10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,How do you ensure that you stay up-to-date with industry changes as a software d,10,2,0.469,0.469,1.0
+LLaMA-3.3-70B,How do you learn to code? Please select all that apply.,10,3,1.1568,0.7298,1.585
+LLaMA-3.3-70B,"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,What is the biggest challenge you face as a developer?,10,3,1.371,0.865,1.585
+LLaMA-3.3-70B,What is your preferred development environment?,10,2,1.0,1.0,1.0
+LLaMA-3.3-70B,When choosing a programming language for a new project you prioritize:,10,4,1.6855,0.8427,2.0
+LLaMA-3.3-70B,You discover a critical bug right before a software release. What immediate acti,10,1,0.0,0.0,0.0
+LLaMA-3.3-70B,You're assigned to a project that requires expertise in a programming language y,10,1,0.0,0.0,0.0
+GPT-4o (P5),A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+GPT-4o (P5),How do you balance between innovation and meeting project deadlines?,10,2,0.469,0.469,1.0
+GPT-4o (P5),How do you communicate effectively with teammates to collaborate while adhering ,10,2,0.7219,0.7219,1.0
+GPT-4o (P5),How do you ensure that you stay up-to-date with industry changes as a software d,10,3,0.9219,0.5817,1.585
+GPT-4o (P5),How do you learn to code? Please select all that apply.,10,3,0.9219,0.5817,1.585
+GPT-4o (P5),"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,2,0.7219,0.7219,1.0
+GPT-4o (P5),Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+GPT-4o (P5),What is the biggest challenge you face as a developer?,10,3,1.361,0.8587,1.585
+GPT-4o (P5),What is your preferred development environment?,10,3,1.2955,0.8173,1.585
+GPT-4o (P5),When choosing a programming language for a new project you prioritize:,10,6,2.371,0.9172,2.585
+GPT-4o (P5),You discover a critical bug right before a software release. What immediate acti,10,2,0.8813,0.8813,1.0
+GPT-4o (P5),You're assigned to a project that requires expertise in a programming language y,10,4,1.6855,0.8427,2.0
+Claude (P5),A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+Claude (P5),How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+Claude (P5),How do you communicate effectively with teammates to collaborate while adhering ,10,2,0.7219,0.7219,1.0
+Claude (P5),How do you ensure that you stay up-to-date with industry changes as a software d,10,3,1.2955,0.8173,1.585
+Claude (P5),How do you learn to code? Please select all that apply.,10,2,0.469,0.469,1.0
+Claude (P5),"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,2,0.469,0.469,1.0
+Claude (P5),Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+Claude (P5),What is the biggest challenge you face as a developer?,10,3,1.361,0.8587,1.585
+Claude (P5),What is your preferred development environment?,10,2,0.8813,0.8813,1.0
+Claude (P5),When choosing a programming language for a new project you prioritize:,10,2,0.971,0.971,1.0
+Claude (P5),You discover a critical bug right before a software release. What immediate acti,10,3,1.361,0.8587,1.585
+Claude (P5),You're assigned to a project that requires expertise in a programming language y,10,1,0.0,0.0,0.0
+LLaMA (P5),A company uses an AI system to monitor its employees' productivity. The AI sugge,10,1,0.0,0.0,0.0
+LLaMA (P5),How do you balance between innovation and meeting project deadlines?,10,1,0.0,0.0,0.0
+LLaMA (P5),How do you communicate effectively with teammates to collaborate while adhering ,10,2,0.469,0.469,1.0
+LLaMA (P5),How do you ensure that you stay up-to-date with industry changes as a software d,10,1,0.0,0.0,0.0
+LLaMA (P5),How do you learn to code? Please select all that apply.,10,4,1.761,0.8805,2.0
+LLaMA (P5),"In a professional setting, if your team is supposed to deliver a SaaS product wi",10,2,0.469,0.469,1.0
+LLaMA (P5),Software development contributes to societal challenges by:. Please select all t,10,1,0.0,0.0,0.0
+LLaMA (P5),What is the biggest challenge you face as a developer?,10,2,0.7219,0.7219,1.0
+LLaMA (P5),What is your preferred development environment?,10,3,1.4855,0.9372,1.585
+LLaMA (P5),When choosing a programming language for a new project you prioritize:,10,3,1.2955,0.8173,1.585
+LLaMA (P5),You discover a critical bug right before a software release. What immediate acti,10,1,0.0,0.0,0.0
+LLaMA (P5),You're assigned to a project that requires expertise in a programming language y,10,2,0.971,0.971,1.0
