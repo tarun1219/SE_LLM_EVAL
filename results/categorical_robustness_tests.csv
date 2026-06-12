@@ -1,0 +1,113 @@
+model,question,demographic,chi2,p,dof,sig,test,n_groups,n_options,fisher_p,fisher_sig,note
+Human,What is you preferred development environment?,age,26.8114,0.000157,6,True,chi2,3.0,4.0,,,
+Human,What is you preferred development environment?,gender,2.4415,0.485962,3,False,chi2,2.0,4.0,,,
+Human, How do you learn to code?,age,18.2641,0.570016,20,False,chi2,3.0,11.0,,,
+Human, How do you learn to code?,gender,12.7171,0.239923,10,False,chi2,2.0,11.0,,,
+Human,What is the biggest challenge you face as a developer?,age,7.7735,0.255169,6,False,chi2,3.0,4.0,,,
+Human,What is the biggest challenge you face as a developer?,gender,2.4555,0.483394,3,False,chi2,2.0,4.0,,,
+Human,"When choosing a programming language for a new project, you ",age,4.1721,0.653398,6,False,chi2,3.0,4.0,,,
+Human,"When choosing a programming language for a new project, you ",gender,1.712,0.634271,3,False,chi2,2.0,4.0,,,
+Human,How do you communicate effectively with teammates to collabo,age,10.0805,0.121302,6,False,chi2,3.0,4.0,,,
+Human,How do you communicate effectively with teammates to collabo,gender,4.0159,0.259755,3,False,chi2,2.0,4.0,,,
+Human,How do you ensure that you stay up-to-date with industry cha,age,35.9694,0.00712,18,True,chi2,3.0,10.0,,,
+Human,How do you ensure that you stay up-to-date with industry cha,gender,8.2158,0.512551,9,False,chi2,2.0,10.0,,,
+Human,How do you balance between innovation and meeting project de,age,6.1579,0.405732,6,False,chi2,3.0,4.0,,,
+Human,How do you balance between innovation and meeting project de,gender,5.097,0.164828,3,False,chi2,2.0,4.0,,,
+Human,Software development contributes to societal challenges by:,age,30.7598,0.030683,18,True,chi2,3.0,10.0,,,
+Human,Software development contributes to societal challenges by:,gender,11.875,0.22045,9,False,chi2,2.0,10.0,,,
+Human,A company uses an AI system to monitor its employees' produc,age,3.9284,0.415786,4,False,chi2,3.0,3.0,,,
+Human,A company uses an AI system to monitor its employees' produc,gender,5.9242,0.051709,2,False,chi2,2.0,3.0,,,
+Human,You discover a critical bug right before a software release.,age,11.9114,0.063974,6,False,chi2,3.0,4.0,,,
+Human,You discover a critical bug right before a software release.,gender,1.5805,0.663825,3,False,chi2,2.0,4.0,,,
+Human,"In a professional setting, if your team is supposed to deliv",age,7.5273,0.480953,8,False,chi2,3.0,5.0,,,
+Human,"In a professional setting, if your team is supposed to deliv",gender,1.2869,0.863593,4,False,chi2,2.0,5.0,,,
+GPT-4o,What is your preferred development environment?,age,0.0794,0.961095,2,False,chi2,3.0,2.0,,,
+GPT-4o,What is your preferred development environment?,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+GPT-4o,What is your preferred development environment?,experience,6.4286,0.040184,2,True,chi2,3.0,2.0,,,
+GPT-4o,What is the biggest challenge you face as a developer?,age,1.6667,0.434598,2,False,chi2,3.0,2.0,,,
+GPT-4o,What is the biggest challenge you face as a developer?,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+GPT-4o,What is the biggest challenge you face as a developer?,experience,2.5926,0.273543,2,False,chi2,3.0,2.0,,,
+GPT-4o,When choosing a programming language for a new project you p,age,4.5,0.609339,6,False,chi2,3.0,4.0,,,
+GPT-4o,When choosing a programming language for a new project you p,gender,5.2,0.157724,3,False,chi2,2.0,4.0,,,
+GPT-4o,When choosing a programming language for a new project you p,experience,8.6667,0.19321,6,False,chi2,3.0,4.0,,,
+GPT-4o,How do you communicate effectively with teammates to collabo,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,How do you communicate effectively with teammates to collabo,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,How do you communicate effectively with teammates to collabo,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,How do you balance between innovation and meeting project de,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,How do you balance between innovation and meeting project de,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,How do you balance between innovation and meeting project de,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,Software development contributes to societal challenges by:.,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,Software development contributes to societal challenges by:.,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,Software development contributes to societal challenges by:.,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,A company uses an AI system to monitor its employees' produc,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,A company uses an AI system to monitor its employees' produc,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,A company uses an AI system to monitor its employees' produc,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+GPT-4o,You're assigned to a project that requires expertise in a pr,age,2.5926,0.273543,2,False,chi2,3.0,2.0,,,
+GPT-4o,You're assigned to a project that requires expertise in a pr,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+GPT-4o,You're assigned to a project that requires expertise in a pr,experience,2.5926,0.273543,2,False,chi2,3.0,2.0,,,
+GPT-4o,You discover a critical bug right before a software release.,age,2.0635,0.356384,2,False,chi2,3.0,2.0,,,
+GPT-4o,You discover a critical bug right before a software release.,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+GPT-4o,You discover a critical bug right before a software release.,experience,3.254,0.196521,2,False,chi2,3.0,2.0,,,
+GPT-4o,"In a professional setting, if your team is supposed to deliv",age,2.5926,0.273543,2,False,chi2,3.0,2.0,,,
+GPT-4o,"In a professional setting, if your team is supposed to deliv",gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+GPT-4o,"In a professional setting, if your team is supposed to deliv",experience,1.6667,0.434598,2,False,chi2,3.0,2.0,,,
+Claude 4-6,What is your preferred development environment?,age,1.1458,0.563878,2,False,chi2,3.0,2.0,,,
+Claude 4-6,What is your preferred development environment?,gender,0.625,0.429195,1,False,chi2,2.0,2.0,0.444444,False,
+Claude 4-6,What is your preferred development environment?,experience,3.75,0.153355,2,False,chi2,3.0,2.0,,,
+Claude 4-6,What is the biggest challenge you face as a developer?,age,1.6667,0.434598,2,False,chi2,3.0,2.0,,,
+Claude 4-6,What is the biggest challenge you face as a developer?,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+Claude 4-6,What is the biggest challenge you face as a developer?,experience,3.75,0.153355,2,False,chi2,3.0,2.0,,,
+Claude 4-6,When choosing a programming language for a new project you p,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,When choosing a programming language for a new project you p,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,When choosing a programming language for a new project you p,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,How do you communicate effectively with teammates to collabo,age,0.0794,0.961095,2,False,chi2,3.0,2.0,,,
+Claude 4-6,How do you communicate effectively with teammates to collabo,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+Claude 4-6,How do you communicate effectively with teammates to collabo,experience,6.4286,0.040184,2,True,chi2,3.0,2.0,,,
+Claude 4-6,How do you balance between innovation and meeting project de,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,How do you balance between innovation and meeting project de,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,How do you balance between innovation and meeting project de,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,Software development contributes to societal challenges by:.,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,Software development contributes to societal challenges by:.,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,Software development contributes to societal challenges by:.,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,A company uses an AI system to monitor its employees' produc,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,A company uses an AI system to monitor its employees' produc,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,A company uses an AI system to monitor its employees' produc,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+Claude 4-6,You're assigned to a project that requires expertise in a pr,age,2.5926,0.273543,2,False,chi2,3.0,2.0,,,
+Claude 4-6,You're assigned to a project that requires expertise in a pr,gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+Claude 4-6,You're assigned to a project that requires expertise in a pr,experience,1.6667,0.434598,2,False,chi2,3.0,2.0,,,
+Claude 4-6,You discover a critical bug right before a software release.,age,3.254,0.196521,2,False,chi2,3.0,2.0,,,
+Claude 4-6,You discover a critical bug right before a software release.,gender,1.9048,0.167546,1,False,chi2,2.0,2.0,0.166667,False,
+Claude 4-6,You discover a critical bug right before a software release.,experience,0.0794,0.961095,2,False,chi2,3.0,2.0,,,
+Claude 4-6,"In a professional setting, if your team is supposed to deliv",age,0.0794,0.961095,2,False,chi2,3.0,2.0,,,
+Claude 4-6,"In a professional setting, if your team is supposed to deliv",gender,0.0,1.0,1,False,chi2,2.0,2.0,1.0,False,
+Claude 4-6,"In a professional setting, if your team is supposed to deliv",experience,6.4286,0.040184,2,True,chi2,3.0,2.0,,,
+LLaMA-3.3,What is your preferred development environment?,age,0.6667,0.716531,2,False,chi2,3.0,2.0,,,
+LLaMA-3.3,What is your preferred development environment?,gender,1.6,0.205903,1,False,chi2,2.0,2.0,0.206349,False,
+LLaMA-3.3,What is your preferred development environment?,experience,7.3333,0.025562,2,True,chi2,3.0,2.0,,,
+LLaMA-3.3,What is the biggest challenge you face as a developer?,age,3.0556,0.548572,4,False,chi2,3.0,3.0,,,
+LLaMA-3.3,What is the biggest challenge you face as a developer?,gender,2.6667,0.263597,2,False,chi2,2.0,3.0,,,
+LLaMA-3.3,What is the biggest challenge you face as a developer?,experience,2.7778,0.595675,4,False,chi2,3.0,3.0,,,
+LLaMA-3.3,When choosing a programming language for a new project you p,age,6.4444,0.375285,6,False,chi2,3.0,4.0,,,
+LLaMA-3.3,When choosing a programming language for a new project you p,gender,5.2,0.157724,3,False,chi2,2.0,4.0,,,
+LLaMA-3.3,When choosing a programming language for a new project you p,experience,5.5556,0.474768,6,False,chi2,3.0,4.0,,,
+LLaMA-3.3,How do you communicate effectively with teammates to collabo,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,How do you communicate effectively with teammates to collabo,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,How do you communicate effectively with teammates to collabo,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,How do you balance between innovation and meeting project de,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,How do you balance between innovation and meeting project de,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,How do you balance between innovation and meeting project de,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,Software development contributes to societal challenges by:.,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,Software development contributes to societal challenges by:.,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,Software development contributes to societal challenges by:.,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,A company uses an AI system to monitor its employees' produc,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,A company uses an AI system to monitor its employees' produc,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,A company uses an AI system to monitor its employees' produc,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You're assigned to a project that requires expertise in a pr,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You're assigned to a project that requires expertise in a pr,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You're assigned to a project that requires expertise in a pr,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You discover a critical bug right before a software release.,age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You discover a critical bug right before a software release.,gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,You discover a critical bug right before a software release.,experience,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,"In a professional setting, if your team is supposed to deliv",age,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,"In a professional setting, if your team is supposed to deliv",gender,0.0,1.0,0,False,chi2,,,,,only one option observed
+LLaMA-3.3,"In a professional setting, if your team is supposed to deliv",experience,0.0,1.0,0,False,chi2,,,,,only one option observed

@@ -2,9 +2,12 @@
 
 > **Modern RLHF-aligned LLMs improve distributional similarity to human survey responses but collapse demographic response diversity — a longitudinal study across two model generations (2023 → 2026).**
 
-This repository contains the full code, archived model outputs, and paper for a **two-generation comparison** of LLMs as synthetic SE survey respondents. All paper results reproduce from archived CSVs — no API keys required.
+This repository contains the full code, archived model outputs, and manuscript for a **two-generation comparison** of LLMs as synthetic SE survey respondents. All reported results reproduce from archived CSVs — no API keys required.
 
-> 📄 **Paper:** `paper/paper_msr2027.pdf` (MSR 2027 target, ACM sigconf)
+> 📄 **Manuscript:** `paper/paper_jss.pdf` (Journal of Systems & Software submission draft)  
+> 📄 **Conference version:** `paper/paper_msr2027.pdf` (earlier MSR-style draft)
+
+> **Archived-output statement:** All analyses in this repository operate on pre-collected model outputs committed to `LLM_Responses/`, `Qasper_analysis/responses/`, and `Datasets/`. No model API calls are needed to reproduce the paper's tables and figures.
 
 ---
 
@@ -108,14 +111,20 @@ pip install -r requirements.txt
 #           Reads from: Datasets/, LLM_Responses/
 python -m inference.run_statistics
 
-# Step 2 — Qasper automatic + stylistic metrics (pure Python, no GPU)
+# Step 2 — Shannon entropy analysis (response diversity triangulation)
+python -m inference.run_entropy_analysis
+
+# Step 3 — Categorical robustness checks (chi-square + Fisher's exact)
+python -m inference.run_categorical_robustness
+
+# Step 4 — Qasper automatic + stylistic metrics (pure Python, no GPU)
 #           Reads from: Qasper_analysis/responses/
 python run_metrics_pure.py
 
-# Step 3 — Compile result tables (CSV → paper-ready tables)
+# Step 5 — Compile result tables (CSV → paper-ready tables)
 python -m inference.compile_tables
 
-# Step 4 — Generate all figures
+# Step 6 — Generate all figures
 python -m visualization.generate_figures
 ```
 
@@ -157,7 +166,7 @@ python -m spacy download en_core_web_sm   # optional, for NER metrics
 
 ### 2. View the Paper
 
-Open `paper/paper_msr2027.pdf` — the full MSR 2027 submission with all results, tables, and discussion.
+Open `paper/paper_jss.pdf` — the full JSS manuscript with all results, tables, and discussion.
 
 ---
 
@@ -253,19 +262,19 @@ python -m inference.verify_baseline
 
 ## Read the Paper
 
-The full paper is available in two formats:
+The manuscript is available in two formats:
 
-- **PDF**: [`paper/paper.pdf`](paper/paper.pdf) — compiled LaTeX, all tables and figures
+- **PDF**: [`paper/paper_jss.pdf`](paper/paper_jss.pdf) — compiled LaTeX (JSS submission draft)
 - **Markdown**: [`results/paper_draft.md`](results/paper_draft.md) — quick reading
 
-The paper covers:
+The manuscript covers:
 - Abstract and Introduction
 - Related Work (silicon sampling, RLHF diversity, prompt engineering, Qasper, metrics)
-- Methodology (profiles, prompts, models, statistical tests)
-- Results (7 tables, 5 figures, all RQ answers)
-- Discussion (Kappa Paradox, distribution paradox, profile blindness)
-- Limitations and Conclusion
-- References (11 entries including SSRN working paper)
+- Methodology (10 synthetic profiles, 5 prompt variants, 5 models, 6 statistical tests)
+- Results (7 tables, 5 figures, all RQ answers including entropy analysis)
+- Discussion (Kappa Paradox, Distribution Paradox, profile blindness)
+- Threats to Validity and Limitations (L1–L9)
+- Artifact Availability section with exact reproduction commands
 
 ---
 
@@ -274,13 +283,15 @@ The paper covers:
 If you use this work, please cite:
 
 ```bibtex
-@misc{sellmeval2026,
-  title     = {Assessing the Effectiveness of Large Language Models as Polling
-               Participants in Qualitative Research: A 2023--2026 Longitudinal Extension},
-  author    = {Gogineni, Tarun},
-  year      = {2026},
-  note      = {Repository: SE\_LLM\_EVAL},
-  url       = {https://github.com/tarungogineni/SE_LLM_EVAL}
+@article{tiwari2026kappaparadox,
+  title   = {The Kappa Paradox: {RLHF}-Aligned {LLMs} Improve Distributional
+             Similarity but Collapse Demographic Response Diversity in {SE}
+             Survey Simulation},
+  author  = {Tiwari, Tarun and Gupta, Radhika and Bahukhandi, Aryaman},
+  journal = {Journal of Systems \& Software},
+  year    = {2026},
+  note    = {Manuscript under review},
+  url     = {https://github.com/tarun1219/SE_LLM_EVAL}
 }
 ```
 

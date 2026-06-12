@@ -1,0 +1,62 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software or the associated manuscript, please cite it using
+  the metadata below.
+type: software
+title: >-
+  SE_LLM_EVAL — The Kappa Paradox: RLHF-Aligned LLMs Improve
+  Distributional Similarity but Collapse Demographic Response
+  Diversity in SE Survey Simulation
+authors:
+  - family-names: Tiwari
+    given-names: Tarun
+    affiliation: Palo Alto Networks
+    orcid: ""
+  - family-names: Gupta
+    given-names: Radhika
+    affiliation: Microsoft
+    email: radhgupta@Microsoft.com
+  - family-names: Bahukhandi
+    given-names: Aryaman
+    affiliation: Intuit
+    email: aryman_bahukhandi@intuit.com
+repository-code: https://github.com/tarun1219/SE_LLM_EVAL
+url: https://github.com/tarun1219/SE_LLM_EVAL
+abstract: >-
+  A longitudinal empirical study comparing two generations of LLMs
+  (2023: GPT-3.5-Turbo, LLaMA-2-7B; 2026: GPT-4o, Claude Sonnet 4-6,
+  LLaMA-3.3-70B) as synthetic software-engineer survey respondents.
+  We identify the "Kappa Paradox": RLHF-aligned 2026 models achieve
+  better distributional similarity to human responses (lower chi-square)
+  but collapse response diversity (Fleiss kappa ~0.48 vs human 0.10,
+  mean Shannon entropy 0.45-0.50 bits vs human 1.86 bits). All results
+  reproduce from archived model outputs without additional API calls.
+keywords:
+  - large language models
+  - survey simulation
+  - silicon sampling
+  - RLHF
+  - demographic diversity
+  - Fleiss kappa
+  - software engineering research
+  - empirical study
+license: MIT
+version: "2.0.0"
+date-released: "2026-06-12"
+preferred-citation:
+  type: article
+  title: >-
+    The Kappa Paradox: RLHF-Aligned LLMs Improve Distributional
+    Similarity but Collapse Demographic Response Diversity in SE
+    Survey Simulation
+  authors:
+    - family-names: Tiwari
+      given-names: Tarun
+    - family-names: Gupta
+      given-names: Radhika
+    - family-names: Bahukhandi
+      given-names: Aryaman
+  journal: "Journal of Systems & Software"
+  year: 2026
+  notes: "Manuscript under review"
+  url: https://github.com/tarun1219/SE_LLM_EVAL

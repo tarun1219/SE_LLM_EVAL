@@ -2,9 +2,11 @@
 
 **Paper:** The Kappa Paradox: RLHF-Aligned LLMs Improve Distributional Similarity
 but Collapse Demographic Response Diversity in SE Survey Simulation
+*(Journal of Systems & Software, manuscript under review)*
 
-**All analyses are based on archived model outputs in `LLM_Responses/` and
-`Qasper_analysis/responses/`. No additional inference is required.**
+**Archived-output statement:** All analyses operate on pre-collected model
+outputs in `LLM_Responses/`, `Qasper_analysis/responses/`, and `Datasets/`.
+No model API calls are needed to reproduce any table or figure.
 
 ---
 
@@ -118,4 +120,5 @@ python -m visualization.generate_figures  # 5 figures
 | `results/statistical_analysis_2026.json` | Full statistical results |
 | `results/qasper_automatic_metrics.csv` | Qasper automatic scores |
 | `results/qasper_stylistic_metrics.csv` | Qasper stylistic scores |
-| `paper/paper_msr2027.pdf` | Full paper (MSR 2027, ACM sigconf) |
+| `paper/paper_jss.pdf` | Full manuscript (JSS submission draft) |
+| `paper/paper_msr2027.pdf` | Earlier conference-style draft |
